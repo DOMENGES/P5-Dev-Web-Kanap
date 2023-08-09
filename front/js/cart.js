@@ -12,7 +12,7 @@ for (let i=0; i<=itemsJson.length; i++){
     let productColor = cart__item.color;
     let productUrl = cart__item.imageUrl;
     let productName = cart__item.name;
-    // let productPrice = cart__item.price;
+    let productPrice = cart__item.price;
     let productQuantity = cart__item.quantity;
     cart__items = document.getElementById("cart__items");
     
@@ -25,7 +25,7 @@ for (let i=0; i<=itemsJson.length; i++){
                   <div class="cart__item__content__description">
                     <h2>  ${productName}</h2>
                     <p>  ${productColor}</p>
-                    <p>  ${res.price} €</p>
+                    <p> ${productPrice} €</p>
                   </div>
                   <div class="cart__item__content__settings">
                     <div class="cart__item__content__settings__quantity">
