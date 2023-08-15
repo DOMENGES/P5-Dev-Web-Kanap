@@ -3,17 +3,18 @@ let cart__items = window.localStorage.getItem("items");
 let itemsJson = JSON.parse(cart__items);
 
 // parcourt du tableau items pour récupérer chaque produit(cart__item) sélectionné par l'utilisateur
-for (let i=0; i<=itemsJson.length; i++){
+for (let i=0; i<itemsJson.length; i++){
     let cart__item = itemsJson[i];
-    console.log(cart__item);
-
+  
     let productId = cart__item.id;
-    console.log(productId);
     let productColor = cart__item.color;
     let productUrl = cart__item.imageUrl;
     let productName = cart__item.name;
-    let productPrice = cart__item.price;
+    // let productPrice = cart__item.price;
+    const productPrice = await fetchProductPrice(productId);
+    
     let productQuantity = cart__item.quantity;
+    
     cart__items = document.getElementById("cart__items");
     
     cart__item = `
@@ -39,7 +40,40 @@ for (let i=0; i<=itemsJson.length; i++){
               </article>`;
               cart__items.innerHTML += cart__item;          
 }
-              // fetch(`http://localhost:3000/api/products/${productId}`)
-              // .then(response => response.json())
-              // .then(res =>  console.log(res.price))
+// récupération du prix dans l'API
+function getPrice(productId){
+      fetch(`http://localhost:3000/api/products/${productId}`)
+      .then(response => {return response.json()})
+
+      .then(res => {return(res.price)}
+       )
+      
+      // console.log(response);
+      // return productPrice = response.price;
+    }
+    async function fetchProductPrice(productId) {
+      return new Promise((resolve, reject) => {
+        fetch(`http://localhost:3000/api/products/${productId}`)
+            .then(function (response) {
+              if (!response.ok) {
+                throw new Error('Not ok.');
+              }
+              return response.json();
+            })
+            .then(function (productData) {
+              const price = productData.price;
+              resolve(price);
+            })
+            .catch(function (error) {
+              console.error('Error', error);
+              reject(error);
+            });
+      });
+    } 
+
+
+
+
+
+
                                                   
