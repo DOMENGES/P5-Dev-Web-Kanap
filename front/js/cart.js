@@ -1,11 +1,17 @@
 // récupération du prix dans l'API puis traduction en format Json
 // calcul du prix total avec quantité du localStorage
+// dépend de la complétude de displayCartElements pour récupérer
+// l'argument productId
+// la fonction retourne une promesse
 async function fetchProductPrice(productId, qte){
+  // attendre d'avoir attrapé l'API d'un produit avec son id
   const response = await fetch(`http://localhost:3000/api/products/${productId}`);
+  // attendre la traduction du data (récupéré dans l'API) en format json
   const data = await response.json();
+  // pour retourner une promesse
   let total = qte * data.price;
   return total;
-}
+}//fin fetchProductPrice
 
 function getTotalPrice() {
   // récupération de tous les produits dans le localStorage et traduction en format JSON
@@ -14,6 +20,7 @@ function getTotalPrice() {
   let total = 0;
   let qte = 0;
   // récupération des valeurs des propriétés price et quantity de chaque produit
+  // du tableau itemsJson
   // calcul du prix total (price*quantity) de chaque produit
   itemsJson.map(
     res => {
@@ -24,8 +31,11 @@ function getTotalPrice() {
   // affichage dans la page Web du prix total et de la quantité totale
   document.querySelector (`#totalPrice`).innerHTML = total;
   document.querySelector (`#totalQuantity`).innerHTML = qte;
-}
-// récupération des valeurs propriétés des produits du localStorage excepté le prix des produits
+} //fin getTotalPrice
+
+// récupération des valeurs propriétés des produits du localStorage
+// excepté le prix des produits
+// la fonction retourne une promesse
 async function displayCartElements() {
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
@@ -36,8 +46,8 @@ async function displayCartElements() {
     let productUrl = cart__item.imageUrl;
     let productName = cart__item.name;
     let productQuantity = cart__item.quantity;
-// récupération du prix dans l'API avec id du produit du localStorage
-// calcul du prix total avec quantité du localStorage
+    // attendre que la fonction fetchProductPrice calcule le total produit
+    // calcul du prix total avec quantité du localStorage
     let productPrice = await fetchProductPrice(productId, productQuantity);
 
     cart__items = document.getElementById("cart__items");
@@ -65,9 +75,11 @@ async function displayCartElements() {
               </article>`;
 // affichage de toute les cartes produits
               cart__items.innerHTML += cart__item;          
-  }
-}
+  }// fin parcourt de la boucle dans le tableau itemsJson
+}// fin displayCartElements
+// appel fonction displayCartElements pour affichage de toutes les cartes
 displayCartElements();
+// appel fonction getTotalPrice
 getTotalPrice();
 
 // vérification et test firstName et Name
