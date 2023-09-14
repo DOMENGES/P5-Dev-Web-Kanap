@@ -1,37 +1,45 @@
 // récupération du prix dans l'API
  async function fetchProductPrice(productId) {
   let urlItem = "http://localhost:3000/api/products/" + productId;
-  console.log(urlItem);
+  // console.log(urlItem);
   let response = await fetch(urlItem);
   let data = await response.json();
   let productPrice = data.price;
-  console.log(productPrice);
-  return productPrice;
-}
+  return productPrice;  
+ } 
 // calcul et affichage totalQuantity
-function totalQuantity_Price (){
+async function totalFinalPrice(){
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
   let totalQuantity = 0;
-  let totalPrice = 0;
-  itemsJson.map(result =>{
-    totalQuantity += result.quantity;
-    totalPrice += result.quantity*result.price;
-
+  let productPrice = 0;
+    itemsJson.map(result =>{
+      totalQuantity += result.quantity;
+      console.log(totalQuantity);
+      id = result.id;
+      console.log(id);
+      let productPrice = await fetchProductPrice(id);
+      console.log(productPrice);
+    let totalFinalPrice = totalQuantity * productPrice;
+    // console.log(totalFinalPrice);
+  
   document.querySelector (`#totalQuantity`).innerHTML = totalQuantity;
-  document.querySelector(`#totalPrice`).innerHTML = totalPrice;
+  document.querySelector(`#totalPrice`).innerHTML = totalFinalPrice;
+
 })
 }
 
+
 // changer le totalQuantity
-function changeQuantity(){
-  const btnAddToCart = parseInt(document.querySelector("input .itemQuantity"));
+// function changeQuantity(){
+//   const btnAddToCart = parseInt(document.querySelector("input .itemQuantity"));
   // let qte = parseInt(btnAddToCart);
-  console.log(btnAddToCart);
+  // console.log(btnAddToCart);
   // btnAddToCart.addEventListener("change",(event)=> {
   //     console.log(event.value);
   //   })
-}
+// }
+
 // récupération tous les items du localStorage
   async function afficherCart__item (){
   let cart__items = window.localStorage.getItem("items");
@@ -72,7 +80,11 @@ function changeQuantity(){
   }
 }
 afficherCart__item();
-totalQuantity_Price();
-changeQuantity();
+
+fetchProductPrice();
+totalFinalPrice();
+// totalQuantityPrice();
+
+// changeQuantity();
 // fetchProductPrice()
 // 
