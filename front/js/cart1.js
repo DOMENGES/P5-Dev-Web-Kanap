@@ -13,7 +13,7 @@ async function totalFinalPrice(){
   let itemsJson = JSON.parse(cart__items);
   let totalQuantity = 0;
   let productPrice = 0;
-    itemsJson.map(result =>{
+    itemsJson.for(result =>{
       totalQuantity += result.quantity;
       console.log(totalQuantity);
       id = result.id;
