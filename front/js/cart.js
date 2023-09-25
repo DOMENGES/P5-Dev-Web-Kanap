@@ -106,28 +106,42 @@ totalFinalPrice();
 // }
 
 // tests formulaire cart__order__form
-let form = document.querySelector("form");
-let balisePrenom = document.getElementById("firstName");
-let baliseNom = document.getElementById("lastName");
-let baliseAdresse = document.getElementById("address");
-let baliseVille = document.getElementById("city");
-let baliseEmail = document.getElementById("email");
+// let form = document.querySelector("form");
+// let balisePrenom = document.getElementById("firstName");
+// let baliseNom = document.getElementById("lastName");
+// let baliseAdresse = document.getElementById("address");
+// let baliseVille = document.getElementById("city");
+// let baliseEmail = document.getElementById("email");
 
-form.addEventListener("submit", (event)=>{
-  event.preventDefault();
+// form.addEventListener("submit", (event)=>{
+//   event.preventDefault();
   // verifierChamp(balisePrenom);
-  let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-  firstNameErrorMsg = alert("ceci n'est pas un prénom");
-  let PrenomRegExp = new RegExp("^[A-zÀ-ú]+$");
-  if (PrenomRegExp.test(balisePrenom.value)){
-    balisePrenom.classList.remove(firstNameErrorMsg);
+//   let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+//   firstNameErrorMsg = alert("ceci n'est pas un prénom");
+//   let PrenomRegExp = new RegExp("^[A-zÀ-ú]+$");
+//   if (PrenomRegExp.test(balisePrenom.value)){
+//     balisePrenom.classList.remove(firstNameErrorMsg);
+//   } else {
+//     balisePrenom.classList.add(firstNameErrorMsg);
+//   }
+//   console.log(balisePrenom.value);
+//   console.log(baliseNom.value);
+//   console.log(baliseAdresse.value);
+//   console.log(baliseVille.value);
+//   console.log(baliseEmail.value)
+// })
+
+// 
+let balisePrenom = document.getElementById("firstName");
+balisePrenom.addEventListener("change", ()=>{
+let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+firstNameErrorMsg = "ceci n'est pas un prénom";
+console.log(firstNameErrorMsg);
+console.log(balisePrenom.value);
+  let prenomRegExp = new RegExp("^[A-zÀ-ú- +\.]+$");
+  if (prenomRegExp.test(balisePrenom.value)){
+    // balisePrenom.classList.remove(firstNameErrorMsg);
   } else {
     balisePrenom.classList.add(firstNameErrorMsg);
   }
-  console.log(balisePrenom.value);
-  console.log(baliseNom.value);
-  console.log(baliseAdresse.value);
-  console.log(baliseVille.value);
-  console.log(baliseEmail.value)
 })
-
