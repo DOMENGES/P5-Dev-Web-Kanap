@@ -85,7 +85,7 @@ afficherCart__item();
 totalFinalPrice();
 
 
-// test champs nom prénom ville
+// test champs
 // function verifierChamp(balise){
   // let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
   // firstNameErrorMsg = alert("ceci n'est pas un prénom");
@@ -134,14 +134,23 @@ totalFinalPrice();
 // 
 let balisePrenom = document.getElementById("firstName");
 balisePrenom.addEventListener("change", ()=>{
-let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-firstNameErrorMsg = "ceci n'est pas un prénom";
-console.log(firstNameErrorMsg);
-console.log(balisePrenom.value);
+
+// console.log(firstNameErrorMsg);
+// console.log(balisePrenom.value);
   let prenomRegExp = new RegExp("^[A-zÀ-ú- +\.]+$");
   if (prenomRegExp.test(balisePrenom.value)){
+    document.getElementById(`firstName`).innerHTML = "balisePrenom.value";
+    document.getElementById(`firstNameErrorMsg`).innerHTML = "";
+    // console.log(balisePrenom.value);
+    // let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+    // firstNameErrorMsg = "ceci n'est pas un prénom";
     // balisePrenom.classList.remove(firstNameErrorMsg);
   } else {
-    balisePrenom.classList.add(firstNameErrorMsg);
+    // console.log("ceci est une erreur");
+    // let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+    // console.log(firstNameErrorMsg);
+    document.getElementById(`firstNameErrorMsg`).innerHTML = "ceci n'est pas un prénom";
+    // firstNameErrorMsg = "ceci n'est pas un prénom";
+    // balisePrenom.classList.add(firstNameErrorMsg);
   }
 })
