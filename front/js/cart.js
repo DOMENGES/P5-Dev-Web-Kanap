@@ -136,7 +136,7 @@ let balisePrenom = document.getElementById("firstName");
 let baliseNom = document.getElementById("lastName");
 let baliseAdresse = document.getElementById("address");
 let baliseVille = document.getElementById("city");
-// let baliseEmail = document.getElementById("email");
+let baliseEmail = document.getElementById("email");
 balisePrenom.addEventListener("change", ()=>{
   let prenomRegExp = new RegExp("^[A-zÀ-ú- +\.]+$");
   if (prenomRegExp.test(balisePrenom.value)){
@@ -180,21 +180,32 @@ baliseVille.addEventListener("change", ()=>{
     document.getElementById(`cityErrorMsg`).innerHTML = "ceci n'est pas une ville";
   }
 })
-// baliseEmail.addEventListener("submit", (event)=>{
-//   event.preventDefault
-//   let emailRegExp = new RegExp("^[a-z.@-]+$");
-//   if (emailRegExp.test(baliseEmail.value)){
-//   document.getElementById(`email`).innerHTML = "baliseEmail.value";
-//   document.getElementById(`emailErrorMsg`).innerHTML = "";
-//   } else {
-//     document.getElementById(`emailErrorMsg`).innerHTML = "ceci n'est pas une adresse mail";
-//   }
-// })
-let btncommander = document.getElementById("order");
-btncommander.addEventListener("submit",(event)=>{
-  event.preventDefault();
-  if()
+baliseEmail.addEventListener("submit", (event)=>{
+  event.preventDefault;
+  let emailRegExp = new RegExp("^[a-z.@-]+$");
+  if (emailRegExp.test(baliseEmail.value)){
+  document.getElementById(`email`).innerHTML = "baliseEmail.value";
+  document.getElementById(`emailErrorMsg`).innerHTML = "";
+  } else {
+    document.getElementById(`emailErrorMsg`).innerHTML = "ceci n'est pas une adresse mail";
+  }
 })
+class contactClient {
+  constructor(prenom,nom, adresse, ville, email){
+    this.prenom = prenom;
+    this.nom = nom;
+    this.adresse = adresse;
+    this.ville = ville;
+    this.email = email;
+  }
+}
+let client1 = new contactClient("balisePrenom.value","baliseNom.value","baliseAdresse.value","baliseVille.value","baliseEmail.value");
+console.log(client1);
+// let btncommander = document.getElementById("order");
+// btncommander.addEventListener("submit",(event)=>{
+//   event.preventDefault();
+//   if()
+// })
 
 
 
