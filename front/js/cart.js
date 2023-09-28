@@ -133,20 +133,19 @@ totalFinalPrice();
 
 // 
 let balisePrenom = document.getElementById("firstName");
+let baliseNom = document.getElementById("lastName");
+let baliseAdresse = document.getElementById("address");
+let baliseVille = document.getElementById("city");
+// let baliseEmail = document.getElementById("email");
 balisePrenom.addEventListener("change", ()=>{
-
-// console.log(firstNameErrorMsg);
-// console.log(balisePrenom.value);
   let prenomRegExp = new RegExp("^[A-zÀ-ú- +\.]+$");
   if (prenomRegExp.test(balisePrenom.value)){
     document.getElementById(`firstName`).innerHTML = "balisePrenom.value";
     document.getElementById(`firstNameErrorMsg`).innerHTML = "";
-    // console.log(balisePrenom.value);
     // let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
     // firstNameErrorMsg = "ceci n'est pas un prénom";
     // balisePrenom.classList.remove(firstNameErrorMsg);
   } else {
-    // console.log("ceci est une erreur");
     // let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
     // console.log(firstNameErrorMsg);
     document.getElementById(`firstNameErrorMsg`).innerHTML = "ceci n'est pas un prénom";
@@ -154,3 +153,48 @@ balisePrenom.addEventListener("change", ()=>{
     // balisePrenom.classList.add(firstNameErrorMsg);
   }
 })
+baliseNom.addEventListener("change", ()=>{
+  let nomRegExp = new RegExp("^[A-zÀ-ú- +\.]+$");
+  if (nomRegExp.test(baliseNom.value)){
+  document.getElementById(`lastName`).innerHTML = "baliseNom.value";
+  document.getElementById(`lastNameErrorMsg`).innerHTML = "";
+  } else {
+    document.getElementById(`lastNameErrorMsg`).innerHTML = "ceci n'est pas un nom";
+  }
+})
+baliseAdresse.addEventListener("change", ()=>{
+  let adresseRegExp = new RegExp("^[A-zÀ-ú- +\.0-9^,\/]+$");
+  if (adresseRegExp.test(baliseAdresse.value)){
+  document.getElementById(`address`).innerHTML = "baliseVille.value";
+  document.getElementById(`addressErrorMsg`).innerHTML = "";
+  } else {
+    document.getElementById(`addressErrorMsg`).innerHTML = "ceci n'est pas une adresse";
+  }
+})
+baliseVille.addEventListener("change", ()=>{
+  let villeRegExp = new RegExp("^[A-zÀ-ú- 0-9^,\/]+$");
+  if (villeRegExp.test(baliseVille.value)){
+  document.getElementById(`city`).innerHTML = "baliseVille.value";
+  document.getElementById(`cityErrorMsg`).innerHTML = "";
+  } else {
+    document.getElementById(`cityErrorMsg`).innerHTML = "ceci n'est pas une ville";
+  }
+})
+// baliseEmail.addEventListener("submit", (event)=>{
+//   event.preventDefault
+//   let emailRegExp = new RegExp("^[a-z.@-]+$");
+//   if (emailRegExp.test(baliseEmail.value)){
+//   document.getElementById(`email`).innerHTML = "baliseEmail.value";
+//   document.getElementById(`emailErrorMsg`).innerHTML = "";
+//   } else {
+//     document.getElementById(`emailErrorMsg`).innerHTML = "ceci n'est pas une adresse mail";
+//   }
+// })
+let btncommander = document.getElementById("order");
+btncommander.addEventListener("submit",(event)=>{
+  event.preventDefault();
+  if()
+})
+
+
+
