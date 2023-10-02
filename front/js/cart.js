@@ -190,6 +190,28 @@ document.getElementById(`emailErrorMsg`).innerHTML = "";
   document.getElementById(`emailErrorMsg`).innerHTML = "ceci n'est pas une adresse mail";
 }
 })
+
+function validateEmail() {
+  let mail = document.getElementById("e-mail");
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail.value)) {
+    return true;
+  }
+  alert("l'email n'est pas valide");
+  return false;
+}
+if (validateEmail()) {appel function pour send le form}
+let contact = {
+  first_name,
+  last_name,
+  city,
+  address,
+  email,
+};
+let products = [];
+const data = {
+  contact,
+  products,
+};
 // class contactClient {
 // constructor(prenom,nom, adresse, ville, email){
 //   this.prenom = prenom;
