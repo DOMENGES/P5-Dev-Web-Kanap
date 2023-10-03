@@ -26,17 +26,18 @@ async function totalFinalPrice() {
       document.querySelector(`#totalPrice`).innerHTML = totalPrice;
   }
 }
-// 
-// récupérer la valeur de input class itemQuantity
-// changer result.quantity par input class itemQuantity
 
-// function mafonction(){
-//   console.log(click)
-// }
-// addEventListener("click", mafonction);
-// var quantityInputs = document.getElementsByClassName("itemQuantity");
-// console.log(quantityInputs);
+function updateQte(idProduit, colorProduit, qteUpdate)
+{
+    console.log(idProduit, colorProduit, qteUpdate);
+    totalFinalPrice()
+}
 
+function deleteProduct(idProduit, colorProduit)
+{
+    console.log(idProduit, colorProduit)
+    totalFinalPrice()
+}
 
 
 
@@ -56,7 +57,7 @@ async function afficherCart__item (){
 
       cart__items = document.getElementById("cart__items");
       cart__item =
-          `<article class="cart__item">
+          `<article class="cart__item" data-product-id="${productId}" data-product-color="${productColor}">
   <div class="cart__item__img">
     <img src="${productUrl}" alt="Photographie d'un canapé">
   </div>
@@ -80,146 +81,97 @@ async function afficherCart__item (){
       cart__items.innerHTML += cart__item;
   }
 }
+
+let changeQuantity = document.querySelectorAll(".itemQuantity");
+    changeQuantity.forEach((item) => {
+        //On écoute le changement sur l'input "itemQuantity"
+        item.addEventListener("change", (event) => {
+            event.preventDefault();
+            let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
+            let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
+            //updateQte(productId, color, item.value);
+        });
+    });
+    let removeCart = document.querySelectorAll(".deleteItem");
+    removeCart.forEach((item) => {
+        //On écoute le changement sur l'input "itemQuantity"
+        item.addEventListener("click", (event) => {
+            let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
+            let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
+            deleteProduct(productId, color)
+          });
+      });
+  
+
 afficherCart__item();
 
 totalFinalPrice();
 
-
-// test champs
-// function verifierChamp(balise){
-// let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-// firstNameErrorMsg = alert("ceci n'est pas un prénom");
-// let PrenomRegExp = new RegExp("^[A-zÀ-ú]+$");
-// if (PrenomRegExp.test(balise.value)){
-//   balise.classList.remove("error");
-// } else {
-//   balise.classList.add("error");
-  // balise.addEventListener("change",()=>{
-  //   verifierPrenom(balise)
-  // })
-// }
-// }
-// function recommencerBalise(balise){
-//   balise.addEventListener("change",()=>{
-
-//   })
-// }
-
-// tests formulaire cart__order__form
-// let form = document.querySelector("form");
-// let balisePrenom = document.getElementById("firstName");
-// let baliseNom = document.getElementById("lastName");
-// let baliseAdresse = document.getElementById("address");
-// let baliseVille = document.getElementById("city");
-// let baliseEmail = document.getElementById("email");
-
-// form.addEventListener("submit", (event)=>{
-//   event.preventDefault();
-// verifierChamp(balisePrenom);
-//   let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-//   firstNameErrorMsg = alert("ceci n'est pas un prénom");
-//   let PrenomRegExp = new RegExp("^[A-zÀ-ú]+$");
-//   if (PrenomRegExp.test(balisePrenom.value)){
-//     balisePrenom.classList.remove(firstNameErrorMsg);
-//   } else {
-//     balisePrenom.classList.add(firstNameErrorMsg);
-//   }
-//   console.log(balisePrenom.value);
-//   console.log(baliseNom.value);
-//   console.log(baliseAdresse.value);
-//   console.log(baliseVille.value);
-//   console.log(baliseEmail.value)
-// })
-
-// 
-let balisePrenom = document.getElementById("firstName");
-let baliseNom = document.getElementById("lastName");
-let baliseAdresse = document.getElementById("address");
-let baliseVille = document.getElementById("city");
-let baliseEmail = document.getElementById("email");
-balisePrenom.addEventListener("change", ()=>{
-let prenomRegExp = new RegExp("^[A-zÀ-ú- +\.]+$");
-if (prenomRegExp.test(balisePrenom.value)){
-  document.getElementById(`firstName`).innerHTML = "balisePrenom.value";
-  document.getElementById(`firstNameErrorMsg`).innerHTML = "";
-  // let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-  // firstNameErrorMsg = "ceci n'est pas un prénom";
-  // balisePrenom.classList.remove(firstNameErrorMsg);
-} else {
-  // let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
-  // console.log(firstNameErrorMsg);
-  document.getElementById(`firstNameErrorMsg`).innerHTML = "ceci n'est pas un prénom";
-  // firstNameErrorMsg = "ceci n'est pas un prénom";
-  // balisePrenom.classList.add(firstNameErrorMsg);
-}
-})
-baliseNom.addEventListener("change", ()=>{
-let nomRegExp = new RegExp("^[A-zÀ-ú- +\.]+$");
-if (nomRegExp.test(baliseNom.value)){
-document.getElementById(`lastName`).innerHTML = "baliseNom.value";
-document.getElementById(`lastNameErrorMsg`).innerHTML = "";
-} else {
-  document.getElementById(`lastNameErrorMsg`).innerHTML = "ceci n'est pas un nom";
-}
-})
-baliseAdresse.addEventListener("change", ()=>{
-let adresseRegExp = new RegExp("^[A-zÀ-ú- +\.0-9^,\/]+$");
-if (adresseRegExp.test(baliseAdresse.value)){
-document.getElementById(`address`).innerHTML = "baliseVille.value";
-document.getElementById(`addressErrorMsg`).innerHTML = "";
-} else {
-  document.getElementById(`addressErrorMsg`).innerHTML = "ceci n'est pas une adresse";
-}
-})
-baliseVille.addEventListener("change", ()=>{
-let villeRegExp = new RegExp("^[A-zÀ-ú- 0-9^,\/]+$");
-if (villeRegExp.test(baliseVille.value)){
-document.getElementById(`city`).innerHTML = "baliseVille.value";
-document.getElementById(`cityErrorMsg`).innerHTML = "";
-} else {
-  document.getElementById(`cityErrorMsg`).innerHTML = "ceci n'est pas une ville";
-}
-})
-baliseEmail.addEventListener("change", ()=>{
-
-let emailRegExp = new RegExp("^[a-z.@-]+$");
-if (emailRegExp.test(baliseEmail.value)){
-document.getElementById(`email`).innerHTML = "baliseEmail.value";
-document.getElementById(`emailErrorMsg`).innerHTML = "";
-} else {
-  document.getElementById(`emailErrorMsg`).innerHTML = "ceci n'est pas une adresse mail";
-}
-})
-
-function validateEmail() {
-  let mail = document.getElementById("e-mail");
-  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail.value)) {
-    return true;
-  }
-  alert("l'email n'est pas valide");
-  return false;
-}
-if (validateEmail()) {appel function pour send le form}
-let contact = {
-  first_name,
-  last_name,
-  city,
-  address,
-  email,
+const fieldStates = {
+  firstName: false,
+  lastName: false,
+  address: false,
+  city: false,
+  email: false
 };
-let products = [];
-const data = {
-  contact,
-  products,
+// Objet pour stocker les données du formulaire
+const contact = {
+  firstName: "",
+  lastName: "",
+  address: "",
+  city: "",
+  email: ""
 };
-// class contactClient {
-// constructor(prenom,nom, adresse, ville, email){
-//   this.prenom = prenom;
-//   this.nom = nom;
-//   this.adresse = adresse;
-//   this.ville = ville;
-//   this.email = email;
-// }
-// }
-// let client1 = new contactClient("balisePrenom.value","baliseNom.value","baliseAdresse.value","baliseVille.value","baliseEmail.value");
-// console.log(client1);
+
+const balisePrenom = document.getElementById("firstName");
+const baliseNom = document.getElementById("lastName");
+const baliseAdresse = document.getElementById("address");
+const baliseVille = document.getElementById("city");
+const baliseEmail = document.getElementById("email");
+
+const prenomRegExp = /^[A-zÀ-ú- +\.]+$/;
+const nomRegExp = /^[A-zÀ-ú- +\.]+$/;
+const adresseRegExp = /^[A-zÀ-ú- +\.0-9^,\/]+$/;
+const villeRegExp = /^[A-zÀ-ú- 0-9^,\/]+$/;
+const emailRegExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+function validateField(inputElement, regex, errorMessage) {
+  const boutonCommander = document.getElementById("order");
+  boutonCommander.setAttribute("disabled", "disabled");
+
+  inputElement.addEventListener("change", () => {
+
+    const value = inputElement.value;
+        const isValid = regex.test(value);
+        const errorElement = document.getElementById(inputElement.id + "ErrorMsg");
+        boutonCommander.setAttribute("disabled", "disabled");
+
+        if (isValid) {
+          errorElement.innerHTML = "";
+      } else {
+          errorElement.innerHTML = errorMessage;
+      }
+      contact[inputElement.id] = value;
+      fieldStates[inputElement.id] = isValid;
+
+      const isAllValid = Object.values(fieldStates).every((state) => state);
+
+      if (isAllValid) {
+        boutonCommander.removeAttribute("disabled");
+        boutonCommander.addEventListener("click", (event) => {
+          getOrder(contact);
+            })
+        }
+    });
+}
+
+validateField(balisePrenom, prenomRegExp, "ceci n'est pas un prénom");
+validateField(baliseNom, nomRegExp, "ceci n'est pas un nom");
+validateField(baliseAdresse, adresseRegExp, "ceci n'est pas une adresse");
+validateField(baliseVille, villeRegExp, "ceci n'est pas une ville");
+validateField(baliseEmail, emailRegExp, "ceci n'est pas une adresse mail");
+
+function getOrder(contact)
+{
+    console.log(contact);
+}
