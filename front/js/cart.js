@@ -1,4 +1,3 @@
-
 async function fetchProductPrice(productId) {
   let urlItem = "http://localhost:3000/api/products/" + productId;
   // console.log(urlItem);
@@ -27,20 +26,18 @@ async function totalFinalPrice() {
   }
 }
 
+
 function updateQte(idProduit, colorProduit, qteUpdate)
 {
-    console.log(idProduit, colorProduit, qteUpdate);
-    totalFinalPrice()
+  console.log(idProduit, colorProduit, qteUpdate);
+  totalFinalPrice()
 }
 
 function deleteProduct(idProduit, colorProduit)
 {
-    console.log(idProduit, colorProduit)
-    totalFinalPrice()
+  console.log(idProduit, colorProduit)
+  totalFinalPrice()
 }
-
-
-
 
 // récupération tous les items du localStorage
 async function afficherCart__item (){
@@ -58,55 +55,57 @@ async function afficherCart__item (){
       cart__items = document.getElementById("cart__items");
       cart__item =
           `<article class="cart__item" data-product-id="${productId}" data-product-color="${productColor}">
-  <div class="cart__item__img">
-    <img src="${productUrl}" alt="Photographie d'un canapé">
+<div class="cart__item__img">
+  <img src="${productUrl}" alt="Photographie d'un canapé">
+</div>
+<div class="cart__item__content">
+  <div class="cart__item__content__description">
+    <h2>${productName}</h2>
+    <p>${productColor}</p>
+    <p>${productPrice} €</p>
   </div>
-  <div class="cart__item__content">
-    <div class="cart__item__content__description">
-      <h2>${productName}</h2>
-      <p>${productColor}</p>
-      <p>${productPrice} €</p>
+  <div class="cart__item__content__settings">
+    <div class="cart__item__content__settings__quantity">
+    <p>Qté : ${productQuantity} </p>
+    <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
     </div>
-    <div class="cart__item__content__settings">
-      <div class="cart__item__content__settings__quantity">
-      <p>Qté : ${productQuantity} </p>
-      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
-      </div>
-      <div class="cart__item__content__settings__delete">
-        <p class="deleteItem">Supprimer</p>
-      </div>
+    <div class="cart__item__content__settings__delete">
+      <p class="deleteItem">Supprimer</p>
     </div>
   </div>
+</div>
 </article> `
       cart__items.innerHTML += cart__item;
   }
-}
 
-let changeQuantity = document.querySelectorAll(".itemQuantity");
-    changeQuantity.forEach((item) => {
-        //On écoute le changement sur l'input "itemQuantity"
-        item.addEventListener("change", (event) => {
-            event.preventDefault();
-            let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
-            let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
-            //updateQte(productId, color, item.value);
-        });
-    });
-    let removeCart = document.querySelectorAll(".deleteItem");
-    removeCart.forEach((item) => {
-        //On écoute le changement sur l'input "itemQuantity"
-        item.addEventListener("click", (event) => {
-            let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
-            let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
-            deleteProduct(productId, color)
-          });
+  let changeQuantity = document.querySelectorAll(".itemQuantity");
+  changeQuantity.forEach((item) => {
+      //On écoute le changement sur l'input "itemQuantity"
+      item.addEventListener("change", (event) => {
+          event.preventDefault();
+          let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
+          let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
+          updateQte(productId, color, item.value);
       });
-  
+  });
 
+  let removeCart = document.querySelectorAll(".deleteItem");
+  removeCart.forEach((item) => {
+      //On écoute le changement sur l'input "itemQuantity"
+      item.addEventListener("click", (event) => {
+          let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
+          let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
+          deleteProduct(productId, color)
+      });
+  });
+}
 afficherCart__item();
 
 totalFinalPrice();
 
+
+
+// Fonction générique de validation de champ
 const fieldStates = {
   firstName: false,
   lastName: false,
@@ -114,6 +113,7 @@ const fieldStates = {
   city: false,
   email: false
 };
+
 // Objet pour stocker les données du formulaire
 const contact = {
   firstName: "",
@@ -141,12 +141,12 @@ function validateField(inputElement, regex, errorMessage) {
 
   inputElement.addEventListener("change", () => {
 
-    const value = inputElement.value;
-        const isValid = regex.test(value);
-        const errorElement = document.getElementById(inputElement.id + "ErrorMsg");
-        boutonCommander.setAttribute("disabled", "disabled");
+      const value = inputElement.value;
+      const isValid = regex.test(value);
+      const errorElement = document.getElementById(inputElement.id + "ErrorMsg");
+      boutonCommander.setAttribute("disabled", "disabled");
 
-        if (isValid) {
+      if (isValid) {
           errorElement.innerHTML = "";
       } else {
           errorElement.innerHTML = errorMessage;
@@ -157,12 +157,13 @@ function validateField(inputElement, regex, errorMessage) {
       const isAllValid = Object.values(fieldStates).every((state) => state);
 
       if (isAllValid) {
-        boutonCommander.removeAttribute("disabled");
-        boutonCommander.addEventListener("click", (event) => {
-          getOrder(contact);
-            })
-        }
-    });
+          boutonCommander.removeAttribute("disabled");
+          boutonCommander.addEventListener("click", (event) => {
+
+              getOrder(contact);
+          })
+      }
+  });
 }
 
 validateField(balisePrenom, prenomRegExp, "ceci n'est pas un prénom");
@@ -173,5 +174,6 @@ validateField(baliseEmail, emailRegExp, "ceci n'est pas une adresse mail");
 
 function getOrder(contact)
 {
-    console.log(contact);
+  console.log(contact);
 }
+
