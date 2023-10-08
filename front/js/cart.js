@@ -1,12 +1,12 @@
+// récupération du prix dans l'API
 async function fetchProductPrice(productId) {
   let urlItem = "http://localhost:3000/api/products/" + productId;
-  // console.log(urlItem);
   let response = await fetch(urlItem);
   let data = await response.json();
   let productPrice = data.price;
   return productPrice;
 }
-// calcul et affichage totalQuantity
+// calculs de totalQuantity et totalPrice
 async function totalFinalPrice() {
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
@@ -15,26 +15,36 @@ async function totalFinalPrice() {
 
   for (const result of itemsJson) {
       let productPrice = await fetchProductPrice(result.id);
-      // productQuantity = result.quantity;
-      // console.log(productQuantity);
       totalPrice += result.quantity * productPrice;
       totalQuantity += result.quantity;
-
-      // document.querySelector ()
+      // affichage de totalQuantity et totalPrice
       document.querySelector (`#totalQuantity`).innerHTML = totalQuantity;
       document.querySelector(`#totalPrice`).innerHTML = totalPrice;
   }
 }
 
-
 function updateQte(idProduit, colorProduit, qteUpdate)
 {
   console.log(idProduit, colorProduit, qteUpdate);
+  
+  function afficherNewQte (qteUpdate){
+  let baliseQte = document.querySelector(".cart__item__content__description p");
+  console.log (baliseQte);
+  let newQuantity = `${qteUpdate}`;
+  console.log(newQuantity);
+  baliseQte.innerText = newQuantity;
+  }
+  afficherNewQte(qteUpdate);
+  
   totalFinalPrice()
 }
 
 function deleteProduct(idProduit, colorProduit)
 {
+  // récupérer panier dans un tableua
+  // supprime les éléments du tableau précédent avec valeur idProduit et colorProduit
+  // reréer le localstorage avec le nouveau tableau après suppression
+
   console.log(idProduit, colorProduit)
   totalFinalPrice()
 }
@@ -50,9 +60,11 @@ async function afficherCart__item (){
       let productUrl = cart__item.imageUrl;
       let productName = cart__item.name;
       let productQuantity = cart__item.quantity;
+      // récupération du prix de l'api
       let productPrice = await fetchProductPrice(productId);
-
+      // affichage valeurs des propriétés produits
       cart__items = document.getElementById("cart__items");
+      console.log(cart__items);
       cart__item =
           `<article class="cart__item" data-product-id="${productId}" data-product-color="${productColor}">
 <div class="cart__item__img">
@@ -79,15 +91,26 @@ async function afficherCart__item (){
   }
 
   let changeQuantity = document.querySelectorAll(".itemQuantity");
-  changeQuantity.forEach((item) => {
+   changeQuantity.forEach((item) => {
       //On écoute le changement sur l'input "itemQuantity"
       item.addEventListener("change", (event) => {
           event.preventDefault();
+          // récupération de l'id affiché dans la balise <article> et du localStorage par afficherCart__item
           let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
+          // récuparation de la valeur color affichée dans la balise <article> et du localStorage par afficherCart__item 
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
           updateQte(productId, color, item.value);
-      });
+
+          // let productQuantity = item.value;
+          // let newValueQte = document.querySelector(".cart__item__content__settings__quantity p");
+          // console.log(productQuantity);
+          // newValueQte = `<div class="cart__item__content__settings__quantity">
+          // <p>Qté : ${productQuantity} </p>`
+          // newValueQte.innerHTML = productQuantity;
+          // console.log(productQuantity)
+          
   });
+})
 
   let removeCart = document.querySelectorAll(".deleteItem");
   removeCart.forEach((item) => {
