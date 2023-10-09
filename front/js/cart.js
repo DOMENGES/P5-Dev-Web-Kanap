@@ -26,18 +26,18 @@ async function totalFinalPrice() {
 function updateQte(idProduit, colorProduit, qteUpdate)
 {
   console.log(idProduit, colorProduit, qteUpdate);
-  
-  function afficherNewQte (qteUpdate){
-  let baliseQte = document.querySelector(".cart__item__content__description p");
+  // afficherNewQte(qteUpdate);
+  totalFinalPrice()
+}
+function afficherNewQte (qteUpdate){
+
+  let baliseQte = document.querySelector(".cart__item__content__settings__quantity p");
   console.log (baliseQte);
   let newQuantity = `${qteUpdate}`;
   console.log(newQuantity);
-  baliseQte.innerText = newQuantity;
+  baliseQte.innerHTML = newQuantity;
   }
-  afficherNewQte(qteUpdate);
-  
-  totalFinalPrice()
-}
+
 
 function deleteProduct(idProduit, colorProduit)
 {
@@ -100,7 +100,7 @@ async function afficherCart__item (){
           // récuparation de la valeur color affichée dans la balise <article> et du localStorage par afficherCart__item 
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
           updateQte(productId, color, item.value);
-
+          afficherNewQte(item.value);
           // let productQuantity = item.value;
           // let newValueQte = document.querySelector(".cart__item__content__settings__quantity p");
           // console.log(productQuantity);
@@ -110,8 +110,9 @@ async function afficherCart__item (){
           // console.log(productQuantity)
           
   });
+  // afficherNewQte(item.value);
 })
-
+// afficherNewQte(item.value);
   let removeCart = document.querySelectorAll(".deleteItem");
   removeCart.forEach((item) => {
       //On écoute le changement sur l'input "itemQuantity"
