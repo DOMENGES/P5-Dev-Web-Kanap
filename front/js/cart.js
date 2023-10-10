@@ -27,27 +27,46 @@ function updateQte(idProduit, colorProduit, qteUpdate)
 {
   console.log(idProduit, colorProduit, qteUpdate);
   // afficherNewQte(qteUpdate);
-  totalFinalPrice()
-}
-function afficherNewQte (qteUpdate){
+  totalFinalPrice();
+  
 
-  let baliseQte = document.querySelector(".cart__item__content__settings__quantity p");
-  console.log (baliseQte);
-  let newQuantity = `${qteUpdate}`;
-  console.log(newQuantity);
-  baliseQte.innerHTML = newQuantity;
+}
+async function tableauPanier0 (){
+  let cart__items = window.localStorage.getItem("items");
+  let itemsJson = JSON.parse(cart__items);
+  for (let i=0; i<itemsJson.length; i++){
+      let cart__item = itemsJson[i];
+      let productId = cart__item.id;
+      let productColor = cart__item.color;
+      let productUrl = cart__item.imageUrl;
+      let productName = cart__item.name;
+      let productQuantity = cart__item.quantity;
+      let productPrice = await fetchProductPrice(productId);
+      const panier0 = [productId, productName, productColor, productQuantity, productPrice];
+      console.log(panier0);
   }
 
+}
 
 function deleteProduct(idProduit, colorProduit)
 {
-  // récupérer panier dans un tableua
+  // récupérer panier dans un tableau
+  tableauPanier0();
+  // console.log(idProduit);
+  let idProduit = panier0[0];
+  // console.log(panier0);
+
+
+  
+  
+ 
   // supprime les éléments du tableau précédent avec valeur idProduit et colorProduit
   // reréer le localstorage avec le nouveau tableau après suppression
 
   console.log(idProduit, colorProduit)
   totalFinalPrice()
 }
+deleteProduct();
 
 // récupération tous les items du localStorage
 async function afficherCart__item (){
@@ -64,7 +83,7 @@ async function afficherCart__item (){
       let productPrice = await fetchProductPrice(productId);
       // affichage valeurs des propriétés produits
       cart__items = document.getElementById("cart__items");
-      console.log(cart__items);
+      // console.log(cart__items);
       cart__item =
           `<article class="cart__item" data-product-id="${productId}" data-product-color="${productColor}">
 <div class="cart__item__img">
@@ -100,19 +119,19 @@ async function afficherCart__item (){
           // récuparation de la valeur color affichée dans la balise <article> et du localStorage par afficherCart__item 
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
           updateQte(productId, color, item.value);
-          afficherNewQte(item.value);
-          // let productQuantity = item.value;
-          // let newValueQte = document.querySelector(".cart__item__content__settings__quantity p");
-          // console.log(productQuantity);
-          // newValueQte = `<div class="cart__item__content__settings__quantity">
-          // <p>Qté : ${productQuantity} </p>`
-          // newValueQte.innerHTML = productQuantity;
-          // console.log(productQuantity)
-          
-  });
-  // afficherNewQte(item.value);
-})
-// afficherNewQte(item.value);
+
+            let baliseItemValue = document.querySelector(".cart__item__content__settings__quantity p");
+            // baliseItemValue.forEach((item) => {
+            console.log(baliseItemValue);
+            console.log(item.value);
+            baliseItemValue.innerHTML = `${item.value}`;
+          // afficherNewQte(item.value);
+  
+            
+
+      })
+  })
+
   let removeCart = document.querySelectorAll(".deleteItem");
   removeCart.forEach((item) => {
       //On écoute le changement sur l'input "itemQuantity"
@@ -124,6 +143,7 @@ async function afficherCart__item (){
   });
 }
 afficherCart__item();
+tableauPanier0();
 
 totalFinalPrice();
 
