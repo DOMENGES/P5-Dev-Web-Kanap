@@ -37,12 +37,13 @@ async function tableauPanier0 (){
   for (let i=0; i<itemsJson.length; i++){
       let cart__item = itemsJson[i];
       let productId = cart__item.id;
-      let productColor = cart__item.color;
-      let productUrl = cart__item.imageUrl;
-      let productName = cart__item.name;
-      let productQuantity = cart__item.quantity;
       let productPrice = await fetchProductPrice(productId);
-      const panier0 = [productId, productName, productColor, productQuantity, productPrice];
+
+      // productId = cart__item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id')
+      // productColor = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color')
+      let panier0 = [];
+      panier0.push(
+    cart__item.id,cart__item.color,cart__item.imageUrl,cart__item.name,cart__item.quantity,productPrice);
       console.log(panier0);
   }
 
@@ -51,19 +52,16 @@ async function tableauPanier0 (){
 function deleteProduct(idProduit, colorProduit)
 {
   // récupérer panier dans un tableau
-  tableauPanier0();
-  // console.log(idProduit);
-  let idProduit = panier0[0];
-  // console.log(panier0);
+  let panier0 = tableauPanier0();
+  console.log(panier0);
+  idProduit = panier0[0];
+  console.log(idProduit);
+  colorProduit = panier0[1];
 
-
-  
-  
- 
   // supprime les éléments du tableau précédent avec valeur idProduit et colorProduit
   // reréer le localstorage avec le nouveau tableau après suppression
 
-  console.log(idProduit, colorProduit)
+  // console.log(idProduit, colorProduit)
   totalFinalPrice()
 }
 deleteProduct();
