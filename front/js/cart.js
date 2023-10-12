@@ -30,40 +30,56 @@ function updateQte(idProduit, colorProduit, qteUpdate)
   totalFinalPrice();
   
 }
-async function tableauPanier0 (){
+// async function tableauPanier0 (){
+//   // afficherCart__item();
+//   let cart__items = window.localStorage.getItem("items");
+//   let itemsJson = JSON.parse(cart__items);
+//   for (let i=0; i<itemsJson.length; i++){
+//       let cart__item = itemsJson[i];
+//   // let panier0 = document.getElementById("cart__items");
+//   // panier0.forEach((item) => {
+//   //   let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
+//   //   console.log(productId);
+//   // })
+      
+//       productId = cart__item.id;
+//       let productPrice = await fetchProductPrice(productId);
+
+//       // productId = cart__item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id')
+//       // productColor = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color')
+      
+//       let panier0 = [];
+//       panier0.push(
+//     productId,cart__item.color,cart__item.imageUrl,cart__item.name,cart__item.quantity,productPrice);
+//       console.log(panier0);
+//       }
+// }
+
+// function deleteProduct(idProduit, colorProduit)
+function deleteProduct(idProduit, colorProduit)
+ // récupérer panier dans un tableau
+{
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
   for (let i=0; i<itemsJson.length; i++){
       let cart__item = itemsJson[i];
-      // let productId = cart__item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
-      productId = cart__item.id;
-      let productPrice = await fetchProductPrice(productId);
-
-      // productId = cart__item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id')
-      // productColor = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color')
+      idProduit = cart__item.id;
+      colorProduit = cart__item.color;
       let panier0 = [];
       panier0.push(
-    productId,cart__item.color,cart__item.imageUrl,cart__item.name,cart__item.quantity,productPrice);
+      idProduit,colorProduit,cart__item.imageUrl,cart__item.name,cart__item.quantity,cart__item.price);
       console.log(panier0);
-  }
-}
-
-// function deleteProduct(idProduit, colorProduit)
-function deleteProduct(idProduit, colorProduit)
-{
-  // récupérer panier dans un tableau
-  let panierX = tableauPanier0();
-  console.log(panierX);
-  idProduit = panierX[0];
-  console.log(idProduit);
-  colorProduit = panierX[1];
-
-  // supprime les éléments du tableau précédent avec valeur idProduit et colorProduit
+      if (idProduit différent de cart__item.id){
+        
+      }
+  
+  // supprimer les éléments du tableau précédent avec valeur idProduit et colorProduit
   // ? méthode Slice?
-  // reréer le localstorage avec le nouveau tableau après suppression
+  // recréer le localstorage avec le nouveau tableau après suppression
 
   // console.log(idProduit, colorProduit)
   totalFinalPrice()
+      }
 }
 // deleteProduct();
 
@@ -106,6 +122,7 @@ async function afficherCart__item (){
 </div>
 </article> `
       cart__items.innerHTML += cart__item;
+
   }
 
   let changeQuantity = document.querySelectorAll(".itemQuantity");
@@ -139,11 +156,8 @@ async function afficherCart__item (){
   });
 }
 afficherCart__item();
-
-tableauPanier0();
-deleteProduct();
-
 totalFinalPrice();
+deleteProduct();
 
 
 
