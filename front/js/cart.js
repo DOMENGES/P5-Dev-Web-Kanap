@@ -29,42 +29,43 @@ function updateQte(idProduit, colorProduit, qteUpdate)
   // afficherNewQte(qteUpdate);
   totalFinalPrice();
   
-
 }
 async function tableauPanier0 (){
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
   for (let i=0; i<itemsJson.length; i++){
       let cart__item = itemsJson[i];
-      let productId = cart__item.id;
+      // let productId = cart__item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
+      productId = cart__item.id;
       let productPrice = await fetchProductPrice(productId);
 
       // productId = cart__item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id')
       // productColor = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color')
       let panier0 = [];
       panier0.push(
-    cart__item.id,cart__item.color,cart__item.imageUrl,cart__item.name,cart__item.quantity,productPrice);
+    productId,cart__item.color,cart__item.imageUrl,cart__item.name,cart__item.quantity,productPrice);
       console.log(panier0);
   }
-
 }
 
+// function deleteProduct(idProduit, colorProduit)
 function deleteProduct(idProduit, colorProduit)
 {
   // récupérer panier dans un tableau
-  let panier0 = tableauPanier0();
-  console.log(panier0);
-  idProduit = panier0[0];
+  let panierX = tableauPanier0();
+  console.log(panierX);
+  idProduit = panierX[0];
   console.log(idProduit);
-  colorProduit = panier0[1];
+  colorProduit = panierX[1];
 
   // supprime les éléments du tableau précédent avec valeur idProduit et colorProduit
+  // ? méthode Slice?
   // reréer le localstorage avec le nouveau tableau après suppression
 
   // console.log(idProduit, colorProduit)
   totalFinalPrice()
 }
-deleteProduct();
+// deleteProduct();
 
 // récupération tous les items du localStorage
 async function afficherCart__item (){
@@ -123,16 +124,13 @@ async function afficherCart__item (){
             console.log(baliseItemValue);
             console.log(item.value);
             baliseItemValue.innerHTML = `${item.value}`;
-          // afficherNewQte(item.value);
-  
-            
 
       })
   })
 
   let removeCart = document.querySelectorAll(".deleteItem");
   removeCart.forEach((item) => {
-      //On écoute le changement sur l'input "itemQuantity"
+      //On écoute le changement sur l'input "deletItem";
       item.addEventListener("click", (event) => {
           let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
@@ -141,7 +139,9 @@ async function afficherCart__item (){
   });
 }
 afficherCart__item();
+
 tableauPanier0();
+deleteProduct();
 
 totalFinalPrice();
 
