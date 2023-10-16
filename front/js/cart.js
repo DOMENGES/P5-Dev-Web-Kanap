@@ -26,60 +26,42 @@ async function totalFinalPrice() {
 function updateQte(idProduit, colorProduit, qteUpdate)
 {
   console.log(idProduit, colorProduit, qteUpdate);
-  // afficherNewQte(qteUpdate);
-  totalFinalPrice();
-  
+  totalFinalPrice();  
 }
-// async function tableauPanier0 (){
-//   // afficherCart__item();
-//   let cart__items = window.localStorage.getItem("items");
-//   let itemsJson = JSON.parse(cart__items);
-//   for (let i=0; i<itemsJson.length; i++){
-//       let cart__item = itemsJson[i];
-//   // let panier0 = document.getElementById("cart__items");
-//   // panier0.forEach((item) => {
-//   //   let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
-//   //   console.log(productId);
-//   // })
-      
-//       productId = cart__item.id;
-//       let productPrice = await fetchProductPrice(productId);
 
-//       // productId = cart__item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id')
-//       // productColor = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color')
-      
-//       let panier0 = [];
-//       panier0.push(
-//     productId,cart__item.color,cart__item.imageUrl,cart__item.name,cart__item.quantity,productPrice);
-//       console.log(panier0);
-//       }
-// }
-
-// function deleteProduct(idProduit, colorProduit)
 function deleteProduct(idProduit, colorProduit)
  // récupérer panier dans un tableau
 {
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
+  let panier1 = [];
+      
   for (let i=0; i<itemsJson.length; i++){
-      let cart__item = itemsJson[i];
-      idProduit = cart__item.id;
-      colorProduit = cart__item.color;
-      let panier0 = [];
-      panier0.push(
-      idProduit,colorProduit,cart__item.imageUrl,cart__item.name,cart__item.quantity,cart__item.price);
-      console.log(panier0);
-      if (idProduit différent de cart__item.id){
+      
+      let  cart__item0 = itemsJson[i];
+      console.log(cart__item0);
+      
+      if(cart__item0.id != idProduit && cart__item0.color != colorProduit){
+        // création du panier1
+        panier1.push(
+          cart__item0.id,cart__item0.color,cart__item0.imageUrl,cart__item0.name,cart__item0.quantity,cart__item0.price);
+          console.log(panier1);
+          // récupérer l'item correspondant à idProduit ColoProduit
+          
+          // cart__item0 = document.querySelector("article");
+        // cart__item0.remove();
+        }
         
-      }
-  
   // supprimer les éléments du tableau précédent avec valeur idProduit et colorProduit
-  // ? méthode Slice?
+
+  
   // recréer le localstorage avec le nouveau tableau après suppression
 
   // console.log(idProduit, colorProduit)
-  totalFinalPrice()
+  
       }
+      // console.log(panier0);
+      totalFinalPrice()
 }
 // deleteProduct();
 
@@ -135,12 +117,12 @@ async function afficherCart__item (){
           // récuparation de la valeur color affichée dans la balise <article> et du localStorage par afficherCart__item 
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
           updateQte(productId, color, item.value);
-
-            let baliseItemValue = document.querySelector(".cart__item__content__settings__quantity p");
+ 
+            // let baliseItemValue = document.querySelector(".cart__item__content__settings__quantity p");
             // baliseItemValue.forEach((item) => {
-            console.log(baliseItemValue);
-            console.log(item.value);
-            baliseItemValue.innerHTML = `${item.value}`;
+            // console.log(baliseItemValue);
+            // console.log(item.value);
+            // baliseItemValue.innerHTML = `${item.value}`;
 
       })
   })
@@ -150,7 +132,9 @@ async function afficherCart__item (){
       //On écoute le changement sur l'input "deletItem";
       item.addEventListener("click", (event) => {
           let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
+          console.log(productId);
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
+          console.log(color);
           deleteProduct(productId, color)
       });
   });
