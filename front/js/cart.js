@@ -30,26 +30,35 @@ function updateQte(idProduit, colorProduit, qteUpdate)
 }
 
 function deleteProduct(idProduit, colorProduit)
+
  // récupérer panier dans un tableau
 {
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
+  console.log(cart__items);
+  let panier0 = [];
   let panier1 = [];
-      
+  console.log(idProduit);
+  console.log(colorProduit);
+  
   for (let i=0; i<itemsJson.length; i++){
       
       let  cart__item0 = itemsJson[i];
-      console.log(cart__item0);
-      
+      // 
+                 
       if(cart__item0.id != idProduit && cart__item0.color != colorProduit){
+      
         // création du panier1
         panier1.push(
           cart__item0.id,cart__item0.color,cart__item0.imageUrl,cart__item0.name,cart__item0.quantity,cart__item0.price);
           console.log(panier1);
-          // récupérer l'item correspondant à idProduit ColoProduit
+            }else
+            {
+            let cart__item1 = itemsJson[i];
+            cart__item1 : {idProduit, colorProduit, cart__item1.imageUrl}
+            console.log(cart__item1);   
           
-          // cart__item0 = document.querySelector("article");
-        // cart__item0.remove();
+
         }
         
   // supprimer les éléments du tableau précédent avec valeur idProduit et colorProduit
