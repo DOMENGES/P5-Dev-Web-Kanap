@@ -34,10 +34,10 @@ function deleteProduct(idProduit, colorProduit) {
  // récupérer panier dans un tableau
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
-  console.log(cart__items);
+  // console.log(cart__items);
   let panier = [];
-  console.log(idProduit);
-  console.log(colorProduit);
+  // console.log(idProduit);
+  // console.log(colorProduit);
   
   for (let i=0; i<itemsJson.length; i++){     
       let  cart__item0 = itemsJson[i];    
@@ -47,12 +47,13 @@ function deleteProduct(idProduit, colorProduit) {
           cart__item0.id,cart__item0.color,cart__item0.imageUrl,cart__item0.name,cart__item0.quantity,cart__item0.price);
           console.log(panier);
             }  
-  let filter = cart__item0.id === idProduit || cart__item0.color === colorProduit;     
-  panier = [cart__item0.id,cart__item0.color,cart__item0.imageUrl,cart__item0.name,cart__item0.quantity,cart__item0.price];
+  let filter = cart__item0.id === idProduit && cart__item0 === colorProduit;    
+  // panier = 
+  // [cart__item0.id,cart__item0.color,cart__item0.imageUrl,cart__item0.name,cart__item0.quantity,cart__item0.price];
   console.log(panier);
   const filterIdColor = panier.filter((cart__item0)=> {
   for (var key in filter) {
-    if (cart__item0[key] === undefined || cart__item0[key] != filter[key])
+    if (cart__item0[key] === undefined || cart__item0[key] != filter[i])
       return false;
   }
   return true;
@@ -135,9 +136,9 @@ async function afficherCart__item (){
       //On écoute le changement sur l'input "deletItem";
       item.addEventListener("click", (event) => {
           let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
-          console.log(productId);
+          // console.log(productId);
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
-          console.log(color);
+          // console.log(color);
           deleteProduct(productId, color)
       });
   });
