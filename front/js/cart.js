@@ -30,44 +30,41 @@ function updateQte(idProduit, colorProduit, qteUpdate)
 }
 
 function deleteProduct(idProduit, colorProduit) {
-
- // récupérer panier dans un tableau
+  // récupérer panier du localStorage dans un tableau
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
-  // console.log(cart__items);
   let panier = [];
-  // console.log(idProduit);
-  // console.log(colorProduit);
+  let panier0 = [];
   
   for (let i=0; i<itemsJson.length; i++){     
-      let  cart__item0 = itemsJson[i];    
+      let  cart__item0 = itemsJson[i];
+      panier0.push(cart__item0.id,cart__item0.color,cart__item0.imageUrl,cart__item0.name,cart__item0.quantity,cart__item0.price);
+      console.log(panier0);
+      const index = panier0.findIndex( 
+        (cart__item0) => cart__item0.id === idProduit && cart__item0.color === colorProduit
+      )
+      console.log(index);
+  }
+  for (let i=0; i<itemsJson.length; i++){     
+    let  cart__item0 = itemsJson[i];
       if(cart__item0.id != idProduit && cart__item0.color != colorProduit){      
-        // création du panier1
+
         panier.push(
           cart__item0.id,cart__item0.color,cart__item0.imageUrl,cart__item0.name,cart__item0.quantity,cart__item0.price);
           console.log(panier);
-            }  
-  let filter = cart__item0.id === idProduit && cart__item0 === colorProduit;    
-  // panier = 
-  // [cart__item0.id,cart__item0.color,cart__item0.imageUrl,cart__item0.name,cart__item0.quantity,cart__item0.price];
-  console.log(panier);
-  const filterIdColor = panier.filter((cart__item0)=> {
-  for (var key in filter) {
-    if (cart__item0[key] === undefined || cart__item0[key] != filter[i])
-      return false;
+        }
+        // supprimer les éléments du tableau précédent avec valeur idProduit et colorProduit 
+        
   }
-  return true;
-});
-
-console.log(filterIdColor);
+              
+              
   
-          }
-  // supprimer les éléments du tableau précédent avec valeur idProduit et colorProduit 
   // recréer le localstorage avec le nouveau tableau après suppression
   // console.log(idProduit, colorProduit)      
       // console.log(panier0);
       totalFinalPrice()
         }
+      
 
 // récupération tous les items du localStorage
 async function afficherCart__item (){
@@ -216,8 +213,6 @@ validateField(baliseAdresse, adresseRegExp, "ceci n'est pas une adresse");
 validateField(baliseVille, villeRegExp, "ceci n'est pas une ville");
 validateField(baliseEmail, emailRegExp, "ceci n'est pas une adresse mail");
 
-function getOrder(contact)
-{
+function getOrder(contact) {
   console.log(contact);
 }
-
