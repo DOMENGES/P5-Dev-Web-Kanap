@@ -34,18 +34,12 @@ function deleteProduct(idProduit, colorProduit) {
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
 
-  //     console.log(panier0);
-  //     const index = panier0.findIndex( 
-  //       (cart__item) => (cart__item.id === idProduit && cart__item.color === colorProduit)
-  //     );
-  //     console.log(index);
-  // }
   for (let i=0; i<itemsJson.length; i++){     
     let  cart__item = itemsJson[i];
     console.log(cart__item);
     const panier = itemsJson;
     console.log(panier);
-    // let panier0 = [];  
+ 
 
         if (cart__item.id != idProduit && cart__item.color != colorProduit){
 
@@ -64,18 +58,9 @@ function deleteProduct(idProduit, colorProduit) {
         }
 // remplacer le nouveau localStorage par l'ancien 
 // localStorage.removeItem("product");
-// mettre à jour l'upDate() après suppression d'un canapé
-      
-
-        
-      
+// mettre à jour l'upDate() après suppression d'un canapé  
   }
-              
-              
-  
-  // recréer le localstorage avec le nouveau tableau après suppression
-  // console.log(idProduit, colorProduit)      
-      // console.log(panier0);
+
       totalFinalPrice()
         }
       
@@ -133,12 +118,6 @@ async function afficherCart__item (){
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
           updateQte(productId, color, item.value);
  
-            // let baliseItemValue = document.querySelector(".cart__item__content__settings__quantity p");
-            // baliseItemValue.forEach((item) => {
-            // console.log(baliseItemValue);
-            // console.log(item.value);
-            // baliseItemValue.innerHTML = `${item.value}`;
-
       })
   })
 
