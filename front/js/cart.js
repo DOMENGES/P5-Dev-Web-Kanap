@@ -33,28 +33,42 @@ function deleteProduct(idProduit, colorProduit) {
   // récupérer panier du localStorage dans un tableau
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
-  let panier = [];
-  let panier0 = [];
-  
-  for (let i=0; i<itemsJson.length; i++){     
-      let  cart__item0 = itemsJson[i];
-      panier0.push(cart__item0.id,cart__item0.color,cart__item0.imageUrl,cart__item0.name,cart__item0.quantity,cart__item0.price);
-      console.log(panier0);
-      const index = panier0.findIndex( 
-        (cart__item0) => cart__item0.id === idProduit && cart__item0.color === colorProduit
-      )
-      console.log(index);
-  }
-  for (let i=0; i<itemsJson.length; i++){     
-    let  cart__item0 = itemsJson[i];
-      if(cart__item0.id != idProduit && cart__item0.color != colorProduit){      
 
-        panier.push(
-          cart__item0.id,cart__item0.color,cart__item0.imageUrl,cart__item0.name,cart__item0.quantity,cart__item0.price);
+  //     console.log(panier0);
+  //     const index = panier0.findIndex( 
+  //       (cart__item) => (cart__item.id === idProduit && cart__item.color === colorProduit)
+  //     );
+  //     console.log(index);
+  // }
+  for (let i=0; i<itemsJson.length; i++){     
+    let  cart__item = itemsJson[i];
+    console.log(cart__item);
+    const panier = itemsJson;
+    console.log(panier);
+    // let panier0 = [];  
+
+        if (cart__item.id != idProduit && cart__item.color != colorProduit){
+
+        console.log(panier);
+        } else {
+          let index = panier.findIndex(
+            (element) => (element.id === idProduit && element.color === colorProduit));
+            console.log(index);
+            // n="";
+          
+          let removedItem = panier.splice(index,1);
+          console.log(removedItem);
           console.log(panier);
+          
+          
         }
-        // supprimer les éléments du tableau précédent avec valeur idProduit et colorProduit 
+// remplacer le nouveau localStorage par l'ancien 
+// localStorage.removeItem("product");
+// mettre à jour l'upDate() après suppression d'un canapé
+      
+
         
+      
   }
               
               
