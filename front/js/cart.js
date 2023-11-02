@@ -29,43 +29,77 @@ function updateQte(idProduit, colorProduit, qteUpdate)
   totalFinalPrice();  
 }
 
-function deleteProduct(idProduit, colorProduit) {
-  // récupérer panier du localStorage dans un tableau
-  let cart__items = window.localStorage.getItem("items");
-  let itemsJson = JSON.parse(cart__items);
+// function deleteProduct(idProduit, colorProduit) {
+//   // récupérer panier du localStorage dans un tableau
+//   let cart__items = window.localStorage.getItem("items");
+//   let itemsJson = JSON.parse(cart__items);
 
-  for (let i=0; i<itemsJson.length; i++){     
-    let  cart__item = itemsJson[i];
-    console.log(cart__item);
-    const panier = itemsJson;
-    console.log(panier);
+//   for (let i=0; i<itemsJson.length; i++){     
+//     let  cart__item = itemsJson[i];
+//     // console.log(cart__item);
+//     const panier = itemsJson;
+//     console.log(panier);
  
+//         if (cart__item.id != idProduit && cart__item.color != colorProduit){
 
-        if (cart__item.id != idProduit && cart__item.color != colorProduit){
+//         console.log(panier);
+//         } else {
+//           let index = panier.findIndex ((element) => (element.id === idProduit && element.color === colorProduit));
+//           console.log(index);
+          
+//           let suppressedItem = panier.splice(index,1);
+//           console.log(suppressedItem);
+//           console.log(panier);
+//           panier = localStorage.removeItem("suppressedtem");
+//           let itemsJson = JSON.parse(cart__items);
+//           console.log(itemsJson);
 
-        console.log(panier);
-        } else {
-          let index = panier.findIndex(
-            (element) => (element.id === idProduit && element.color === colorProduit));
-            console.log(index);
-            // n="";
-          
-          let removedItem = panier.splice(index,1);
-          console.log(removedItem);
-          console.log(panier);
-          
-          
-        }
+//         }
+
+  function deleteProduct(idProduit, colorProduit) {
+  // Récupérer le panier du localStorage dans un tableau
+  const cart__items = JSON.parse(localStorage.getItem("items")) || [];
+  //
+  // if
+  // cart__items tableau avec items du localStorage est true et le [] vide est false => true
+  // OU cart__items tableau avec items du localStorage est true et le [] vide est true => true
+  // OU cart__items tableau avec items du localStorage est false et le [] vide est true => true
+  // OU cart__items tableau avec items du localStorage est false et le [] vide est false => false
+  // être sûr qu'il y a des données dans le localStorage pour remplir le tableau
+  // s'il n'y a aucune donnée dans le localStorage soit le tableau ne se remplit pas,
+  // soit le tableau est remplit et cela renverra faux.
+
+  // Filtrer les éléments à conserver dans un nouveau tableau
+  const new_cart = cart__items.filter(item => item.id !== idProduit || item.color !== colorProduit);
+  // if
+  // item.id !== idProduit est true et item.color !== colorProduit est true => true
+  // item.id !== idProduit est true et item.color !== colorProduit est false => true
+  // item.id !== idProduit est false et item.color !== colorProduit est true => true
+  // item.id !== idProduit est false et item.color !== colorProduit est false => false
+  // si id & color du LocalStorage différents de id & color de l'item sélectionné alors
+  // l'item reste dans le nouveau tableau
+
+  // Sauvegarder le nouveau panier dans le localStorage
+  localStorage.setItem("items", JSON.stringify(new_cart));
+
+
+  // Rafraîchir la page
+  // window.location.reload();
+
+  // Mettre à jour le prix final
+  totalFinalPrice();
+  
+
+  
+}
+
+// récupération tous les items du localStorage
 // remplacer le nouveau localStorage par l'ancien 
 // localStorage.removeItem("product");
 // mettre à jour l'upDate() après suppression d'un canapé  
-  }
+  
 
-      totalFinalPrice()
-        }
-      
 
-// récupération tous les items du localStorage
 async function afficherCart__item (){
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
@@ -129,13 +163,21 @@ async function afficherCart__item (){
           // console.log(productId);
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
           // console.log(color);
-          deleteProduct(productId, color)
+          deleteProduct(productId, color);
+          // rechargement de la page après le click et le deleteProduct
+          removeCart = window.location.reload();
       });
+      
   });
+  // location.reload;
 }
 afficherCart__item();
 totalFinalPrice();
 deleteProduct();
+
+// Rafraîchir la page
+// location.reload();
+// updateQte();
 
 
 
