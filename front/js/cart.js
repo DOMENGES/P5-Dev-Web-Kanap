@@ -25,9 +25,25 @@ async function totalFinalPrice() {
 
 function updateQte(idProduit, colorProduit, qteUpdate)
 {
+  const cart__items = JSON.parse(localStorage.getItem("items")) || [];
+  // const new_cart = cart__items.filter(item => item.id !== idProduit || item.color !== colorProduit);
+  let cart = []
+//  console.log(new_cart);
+  cart__items.forEach((element) => {
+    if(element.id == idProduit && element.color == colorProduit){
+    element.quantity = qteUpdate;
+    cart.push(element);
+    
+    } else {
+      cart.push(element);
+    }
+  });
+  console.log(cart);
   console.log(idProduit, colorProduit, qteUpdate);
+  localStorage.setItem("items", JSON.stringify(cart));
   totalFinalPrice();  
 }
+// 
 
 // function deleteProduct(idProduit, colorProduit) {
 //   // récupérer panier du localStorage dans un tableau
@@ -84,7 +100,7 @@ function updateQte(idProduit, colorProduit, qteUpdate)
 
 
   // Rafraîchir la page
-  // window.location.reload();
+  location.reload();
 
   // Mettre à jour le prix final
   totalFinalPrice();
@@ -150,6 +166,7 @@ async function afficherCart__item (){
           let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
           // récuparation de la valeur color affichée dans la balise <article> et du localStorage par afficherCart__item 
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
+          // let value = item.value;
           updateQte(productId, color, item.value);
  
       })
@@ -165,7 +182,7 @@ async function afficherCart__item (){
           // console.log(color);
           deleteProduct(productId, color);
           // rechargement de la page après le click et le deleteProduct
-          removeCart = window.location.reload();
+          // removeCart = window.location.reload();
       });
       
   });
@@ -173,7 +190,7 @@ async function afficherCart__item (){
 }
 afficherCart__item();
 totalFinalPrice();
-deleteProduct();
+// deleteProduct();
 
 // Rafraîchir la page
 // location.reload();
