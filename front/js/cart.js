@@ -24,23 +24,50 @@ async function totalFinalPrice() {
 }
 
 function updateQte(idProduit, colorProduit, qteUpdate)
+// paramètres sont issus de changeQuantity (évènement click)
 {
   const cart__items = JSON.parse(localStorage.getItem("items")) || [];
-  // const new_cart = cart__items.filter(item => item.id !== idProduit || item.color !== colorProduit);
-  let cart = []
-//  console.log(new_cart);
+  // récupération dans le localStorage du panier avec quantité modifiée par le click
+  // la valeur de la clé quantité est une chaine de caractère
+  // console.log(cart__items);
+
+  let cart = [];
+  // initialisation du tableau cart
   cart__items.forEach((element) => {
+    // parcours du panier cart__items sur chaque produit(element)
+    // si id + color du panier cart__items et id + color du produit sélectionné par le click sont égaux
     if(element.id == idProduit && element.color == colorProduit){
-    element.quantity = qteUpdate;
+      // alors la valeur de la clé quantité est égale(remplacée) à la valeur de la clé qteUpdate du click
+      // qteUpdate = parseInt(element.quantity);
+      element.quantity = qteUpdate;
+      // qteUpdate = document.querySelector(".cart__item__content__settings__quantity p");
+
+    console.log(qteUpdate);
+    // document.querySelector(".cart__item__content__settings__quantity p").innerHTML = `${qteUpdate}`;
+    // l'element avec la quantité modifiée est poussé dant le tableau cart
     cart.push(element);
+    document.querySelector(".cart__item__content__settings__quantity p").innerHTML = `${qteUpdate}`
     
+    // Sinon l'élément qui n'a pas été sélectionné par le click
+    // est poussé dans le tableau cart
     } else {
       cart.push(element);
+      document.querySelector(".cart__item__content__settings__quantity p").innerHTML = `${qteUpdate}`
     }
   });
   console.log(cart);
   console.log(idProduit, colorProduit, qteUpdate);
+  console.log(qteUpdate);
+  // document.querySelector(".cart__item__content__settings__quantity p").innerHTML += `${qteUpdate}`
+  
+  
+  // stockage de tous les produits(items) du tableau cart dans le localStorage
+  // et pour pouvoir stocker les valeurs il faut toutes les transformer
+  // en chaines de caractères
   localStorage.setItem("items", JSON.stringify(cart));
+  console.log(cart);
+  
+  
   totalFinalPrice();  
 }
 // 
