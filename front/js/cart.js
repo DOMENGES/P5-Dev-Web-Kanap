@@ -28,36 +28,59 @@ function updateQte(idProduit, colorProduit, qteUpdate)
 {
   const cart__items = JSON.parse(localStorage.getItem("items")) || [];
   // récupération dans le localStorage du panier avec quantité modifiée par le click
-  // la valeur de la clé quantité est une chaine de caractère
+  // la valeur de la clé quantité est une chaine de caractères
   // console.log(cart__items);
 
   let cart = [];
   // initialisation du tableau cart
+  
+  
   cart__items.forEach((element) => {
     // parcours du panier cart__items sur chaque produit(element)
     // si id + color du panier cart__items et id + color du produit sélectionné par le click sont égaux
-    if(element.id == idProduit && element.color == colorProduit){
-      // alors la valeur de la clé quantité est égale(remplacée) à la valeur de la clé qteUpdate du click
-      // qteUpdate = parseInt(element.quantity);
-      element.quantity = qteUpdate;
-      // qteUpdate = document.querySelector(".cart__item__content__settings__quantity p");
+    // element.quantity = element.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-quantity');
+    // console.log(qteUpdate);
+    let baliseMenuQuantity = document.querySelector(".itemQuantity");
+    console.log(baliseMenuQuantity.value);
+    if(element.id == idProduit && element.color == colorProduit && element.quantity != baliseMenuQuantity.value){
+      let baliseQuantity = document.querySelector(".cart__item__content__settings__quantity p");
+      // let baliseMenuQuantity = document.querySelector(".itemQuantity");
+      baliseQuantity.value = element.quantity;
+      console.log(baliseQuantity.value);
+      console.log(element.quantity);
+      baliseMenuQuantity.value = qteUpdate;
+      console.log(qteUpdate);
+      qteUpdate = baliseQuantity.value;
 
-    console.log(qteUpdate);
-    // document.querySelector(".cart__item__content__settings__quantity p").innerHTML = `${qteUpdate}`;
+    
+    
+      // alors la valeur de la clé quantité est égale(remplacée) à la valeur de la clé qteUpdate du click
+      // element.quantity = document.querySelectorAll(".cart__item__content__settings__quantity p").innerHTML += `${qteUpdate}`;
+      
+      // console.log(qteUpdate);
+      
+      // baliseQteUpdate.setAttribute("p", qteUpdate);
     // l'element avec la quantité modifiée est poussé dant le tableau cart
     cart.push(element);
-    document.querySelector(".cart__item__content__settings__quantity p").innerHTML = `${qteUpdate}`
+    console.log(cart);
+  //  let index = cart.findIndex((cart)=> element.id == idProduit && element.color == colorProduit);
+  // console.log(index);
+  // console.log(cart[index]);
+    // document.querySelector(".cart__item__content__settings__quantity p").innerHTML = `${qteUpdate}`
     
     // Sinon l'élément qui n'a pas été sélectionné par le click
     // est poussé dans le tableau cart
     } else {
       cart.push(element);
-      document.querySelector(".cart__item__content__settings__quantity p").innerHTML = `${qteUpdate}`
-    }
-  });
-  console.log(cart);
-  console.log(idProduit, colorProduit, qteUpdate);
-  console.log(qteUpdate);
+      // document.querySelector(".cart__item__content__settings__quantity p").innerHTML = `${qteUpdate}`
+    };
+  
+  // console.log(cart);
+  // console.log(idProduit, colorProduit, qteUpdate);
+  // console.log(qteUpdate);
+
+  
+    });
   // document.querySelector(".cart__item__content__settings__quantity p").innerHTML += `${qteUpdate}`
   
   
@@ -191,6 +214,7 @@ async function afficherCart__item (){
           event.preventDefault();
           // récupération de l'id affiché dans la balise <article> et du localStorage par afficherCart__item
           let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
+          console.log(productId);
           // récuparation de la valeur color affichée dans la balise <article> et du localStorage par afficherCart__item 
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
           // let value = item.value;
