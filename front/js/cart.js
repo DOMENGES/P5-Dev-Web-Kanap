@@ -52,6 +52,7 @@ function updateQte(idProduit, colorProduit, qteUpdate)
       // console.log(baliseQuantity.value);
       element.quantity = qteUpdate;
       chgBaliseQuantity(qteUpdate);
+      
     // l'element avec la quantité modifiée est poussé dant le tableau cart
     cart.push(element);
     console.log(cart);
