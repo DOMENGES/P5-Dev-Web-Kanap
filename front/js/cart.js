@@ -22,12 +22,13 @@ async function totalFinalPrice() {
       document.querySelector(`#totalPrice`).innerHTML = totalPrice;
   }
 }
-function chgBaliseQuantity(){
-  if (element.quantity != qteUpdate){
+
+function chgBaliseQuantity(qteUpdate){
     let baliseElementQuantity = document.querySelector(".cart__item__content__settings__quantity p");
-    baliseElementQuantity.value = qteUpdate;
-  }
-}
+    console.log(baliseElementQuantity);
+    baliseElementQuantity = qteUpdate;
+    console.log(baliseElementQuantity);
+    }
 
 function updateQte(idProduit, colorProduit, qteUpdate)
 // paramètres sont issus de changeQuantity (évènement click)
@@ -50,7 +51,7 @@ function updateQte(idProduit, colorProduit, qteUpdate)
       // baliseQuantity.value = element.quantity;
       // console.log(baliseQuantity.value);
       element.quantity = qteUpdate;
-      chgBaliseQuantity(element.quantity, qteUpdate);
+      chgBaliseQuantity(qteUpdate);
     // l'element avec la quantité modifiée est poussé dant le tableau cart
     cart.push(element);
     console.log(cart);
