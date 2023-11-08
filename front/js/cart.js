@@ -22,6 +22,12 @@ async function totalFinalPrice() {
       document.querySelector(`#totalPrice`).innerHTML = totalPrice;
   }
 }
+function chgBaliseQuantity(){
+  if (element.quantity != qteUpdate){
+    let baliseElementQuantity = document.querySelector(".cart__item__content__settings__quantity p");
+    baliseElementQuantity.value = qteUpdate;
+  }
+}
 
 function updateQte(idProduit, colorProduit, qteUpdate)
 // paramètres sont issus de changeQuantity (évènement click)
@@ -37,37 +43,18 @@ function updateQte(idProduit, colorProduit, qteUpdate)
   
   cart__items.forEach((element) => {
     // parcours du panier cart__items sur chaque produit(element)
-    // si id + color du panier cart__items et id + color du produit sélectionné par le click sont égaux
-    // element.quantity = element.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-quantity');
-    // console.log(qteUpdate);
-    let baliseMenuQuantity = document.querySelector(".itemQuantity");
-    console.log(baliseMenuQuantity.value);
-    if(element.id == idProduit && element.color == colorProduit && element.quantity != baliseMenuQuantity.value){
-      let baliseQuantity = document.querySelector(".cart__item__content__settings__quantity p");
-      // let baliseMenuQuantity = document.querySelector(".itemQuantity");
-      baliseQuantity.value = element.quantity;
-      console.log(baliseQuantity.value);
-      console.log(element.quantity);
-      baliseMenuQuantity.value = qteUpdate;
-      console.log(qteUpdate);
-      qteUpdate = baliseQuantity.value;
 
-    
-    
-      // alors la valeur de la clé quantité est égale(remplacée) à la valeur de la clé qteUpdate du click
-      // element.quantity = document.querySelectorAll(".cart__item__content__settings__quantity p").innerHTML += `${qteUpdate}`;
-      
-      // console.log(qteUpdate);
-      
-      // baliseQteUpdate.setAttribute("p", qteUpdate);
+    if(element.id == idProduit && element.color == colorProduit){
+      // let baliseQuantity = ;
+      // let baliseMenuQuantity = document.querySelector(".itemQuantity");
+      // baliseQuantity.value = element.quantity;
+      // console.log(baliseQuantity.value);
+      element.quantity = qteUpdate;
+      chgBaliseQuantity(element.quantity, qteUpdate);
     // l'element avec la quantité modifiée est poussé dant le tableau cart
     cart.push(element);
     console.log(cart);
-  //  let index = cart.findIndex((cart)=> element.id == idProduit && element.color == colorProduit);
-  // console.log(index);
-  // console.log(cart[index]);
-    // document.querySelector(".cart__item__content__settings__quantity p").innerHTML = `${qteUpdate}`
-    
+  
     // Sinon l'élément qui n'a pas été sélectionné par le click
     // est poussé dans le tableau cart
     } else {
@@ -93,34 +80,7 @@ function updateQte(idProduit, colorProduit, qteUpdate)
   
   totalFinalPrice();  
 }
-// 
 
-// function deleteProduct(idProduit, colorProduit) {
-//   // récupérer panier du localStorage dans un tableau
-//   let cart__items = window.localStorage.getItem("items");
-//   let itemsJson = JSON.parse(cart__items);
-
-//   for (let i=0; i<itemsJson.length; i++){     
-//     let  cart__item = itemsJson[i];
-//     // console.log(cart__item);
-//     const panier = itemsJson;
-//     console.log(panier);
- 
-//         if (cart__item.id != idProduit && cart__item.color != colorProduit){
-
-//         console.log(panier);
-//         } else {
-//           let index = panier.findIndex ((element) => (element.id === idProduit && element.color === colorProduit));
-//           console.log(index);
-          
-//           let suppressedItem = panier.splice(index,1);
-//           console.log(suppressedItem);
-//           console.log(panier);
-//           panier = localStorage.removeItem("suppressedtem");
-//           let itemsJson = JSON.parse(cart__items);
-//           console.log(itemsJson);
-
-//         }
 
   function deleteProduct(idProduit, colorProduit) {
   // Récupérer le panier du localStorage dans un tableau
