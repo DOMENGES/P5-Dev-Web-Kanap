@@ -24,65 +24,39 @@ async function totalFinalPrice() {
 }
 
 function chgBaliseQuantity(qteUpdate){
-    let baliseElementQuantity = document.querySelector(".cart__item__content__settings__quantity p");
-    console.log(baliseElementQuantity);
-    baliseElementQuantity = qteUpdate;
-    console.log(baliseElementQuantity);
+      let baliseElementQuantity = document.querySelector(".cart__item__content__settings__quantity p");
+      baliseElementQuantity.innerHTML = qteUpdate;
     }
-
-function updateQte(idProduit, colorProduit, qteUpdate)
 // paramètres sont issus de changeQuantity (évènement click)
+function updateQte(idProduit, colorProduit, qteUpdate)
+
 {
+   // récupération dans le localStorage du panier avec quantité modifiée par le click
   const cart__items = JSON.parse(localStorage.getItem("items")) || [];
-  // récupération dans le localStorage du panier avec quantité modifiée par le click
-  // la valeur de la clé quantité est une chaine de caractères
-  // console.log(cart__items);
-
+  // initialisation du tableau cart : nouveau panier
   let cart = [];
-  // initialisation du tableau cart
-  
-  
+  // parcours du panier cart__items sur chaque produit(element)
   cart__items.forEach((element) => {
-    // parcours du panier cart__items sur chaque produit(element)
-
-    if(element.id == idProduit && element.color == colorProduit){
-      // let baliseQuantity = ;
-      // let baliseMenuQuantity = document.querySelector(".itemQuantity");
-      // baliseQuantity.value = element.quantity;
-      // console.log(baliseQuantity.value);
-      element.quantity = qteUpdate;
-      chgBaliseQuantity(qteUpdate);
-      
+    if(element.id == idProduit && element.color == colorProduit ){
+      element.quantity = parseInt(qteUpdate); 
     // l'element avec la quantité modifiée est poussé dant le tableau cart
     cart.push(element);
     console.log(cart);
-  
     // Sinon l'élément qui n'a pas été sélectionné par le click
     // est poussé dans le tableau cart
     } else {
       cart.push(element);
       // document.querySelector(".cart__item__content__settings__quantity p").innerHTML = `${qteUpdate}`
-    };
-  
-  // console.log(cart);
-  // console.log(idProduit, colorProduit, qteUpdate);
-  // console.log(qteUpdate);
-
-  
-    });
-  // document.querySelector(".cart__item__content__settings__quantity p").innerHTML += `${qteUpdate}`
-  
-  
+      };
   // stockage de tous les produits(items) du tableau cart dans le localStorage
   // et pour pouvoir stocker les valeurs il faut toutes les transformer
   // en chaines de caractères
   localStorage.setItem("items", JSON.stringify(cart));
   console.log(cart);
-  
-  
-  totalFinalPrice();  
-}
 
+  totalFinalPrice();  
+});
+}
 
   function deleteProduct(idProduit, colorProduit) {
   // Récupérer le panier du localStorage dans un tableau
@@ -110,23 +84,13 @@ function updateQte(idProduit, colorProduit, qteUpdate)
   // Sauvegarder le nouveau panier dans le localStorage
   localStorage.setItem("items", JSON.stringify(new_cart));
 
-
   // Rafraîchir la page
   location.reload();
 
   // Mettre à jour le prix final
   totalFinalPrice();
   
-
-  
 }
-
-// récupération tous les items du localStorage
-// remplacer le nouveau localStorage par l'ancien 
-// localStorage.removeItem("product");
-// mettre à jour l'upDate() après suppression d'un canapé  
-  
-
 
 async function afficherCart__item (){
   let cart__items = window.localStorage.getItem("items");
@@ -172,18 +136,20 @@ async function afficherCart__item (){
   let changeQuantity = document.querySelectorAll(".itemQuantity");
    changeQuantity.forEach((item) => {
       //On écoute le changement sur l'input "itemQuantity"
-      item.addEventListener("change", (event) => {
+          item.addEventListener("change", (event) => {
           event.preventDefault();
           // récupération de l'id affiché dans la balise <article> et du localStorage par afficherCart__item
           let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
-          console.log(productId);
           // récuparation de la valeur color affichée dans la balise <article> et du localStorage par afficherCart__item 
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
-          // let value = item.value;
+          // let qte = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-quantity');
+          // console.log(qte);
           updateQte(productId, color, item.value);
- 
-      })
-  })
+          console.log(item.value);
+          // Rafraîchir la page
+          location.reload();
+          })
+    })
 
   let removeCart = document.querySelectorAll(".deleteItem");
   removeCart.forEach((item) => {
@@ -194,20 +160,15 @@ async function afficherCart__item (){
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
           // console.log(color);
           deleteProduct(productId, color);
-          // rechargement de la page après le click et le deleteProduct
-          // removeCart = window.location.reload();
       });
       
   });
-  // location.reload;
+
 }
 afficherCart__item();
 totalFinalPrice();
-// deleteProduct();
+updateQte();
 
-// Rafraîchir la page
-// location.reload();
-// updateQte();
 
 
 
