@@ -3,10 +3,11 @@ const url = new URL(document.location);
 console.log (url);
 //récupération id du produit dans l'url
 const searchParams = url.searchParams;
+console.log(searchParams);
 const idProduct = searchParams.get('id');
 console.log(idProduct);
 
-//récupération des balises titre + image + price + description du DOM 
+//initialisation des variables du produit
 let elementTitle = null;
 let elementId = null;
 let elementColor = null;
@@ -24,7 +25,7 @@ fetch(url2).then(data=>{
     imageUrl = element.imageUrl;
     price = element.price;
     description = element.description;
-    // récupération balise image de html
+    // récupération balise image dans le DOM
     let elementImg = document.querySelector(".item__img");
     // affichage dans la page web des données image
     elementImg.innerHTML = '<img src="'+imageUrl+'" alt="Photographie d\'un canapé">';

@@ -2,7 +2,6 @@
 let url = "http://localhost:3000/api/products";
 //Déclaration variable items et liée avec la balise du fichier html
 let items = document.getElementById("items");
-//alternative : await fetch(url) ?
 //Lorsque la fonction fetch a atteind l'api
 //alors (.then) la promesse est "resolved"
 //et les données datas sont prises en argument de la 

@@ -29,7 +29,6 @@ function chgBaliseQuantity(qteUpdate){
     }
 // paramètres sont issus de changeQuantity (évènement click)
 function updateQte(idProduit, colorProduit, qteUpdate)
-
 {
    // récupération dans le localStorage du panier avec quantité modifiée par le click
   const cart__items = JSON.parse(localStorage.getItem("items")) || [];
@@ -52,8 +51,6 @@ function updateQte(idProduit, colorProduit, qteUpdate)
   // et pour pouvoir stocker les valeurs il faut toutes les transformer
   // en chaines de caractères
   localStorage.setItem("items", JSON.stringify(cart));
-  console.log(cart);
-
   totalFinalPrice();  
 });
 }
@@ -150,7 +147,6 @@ async function afficherCart__item (){
           location.reload();
           })
     })
-
   let removeCart = document.querySelectorAll(".deleteItem");
   removeCart.forEach((item) => {
       //On écoute le changement sur l'input "deletItem";
@@ -168,8 +164,6 @@ async function afficherCart__item (){
 afficherCart__item();
 totalFinalPrice();
 updateQte();
-
-
 
 
 // Fonction générique de validation de champ
@@ -190,6 +184,7 @@ const contact = {
   email: ""
 };
 
+// sélection DOM des balises de l'objet contact
 const balisePrenom = document.getElementById("firstName");
 const baliseNom = document.getElementById("lastName");
 const baliseAdresse = document.getElementById("address");
@@ -206,11 +201,14 @@ function validateField(inputElement, regex, errorMessage) {
   const boutonCommander = document.getElementById("order");
   boutonCommander.setAttribute("disabled", "disabled");
 
-  inputElement.addEventListener("change", () => {
-
+  inputElement.addEventListener("change", (event) => {
+      event.preventDefault();
+    
       const value = inputElement.value;
+      console.log(value);
       const isValid = regex.test(value);
       const errorElement = document.getElementById(inputElement.id + "ErrorMsg");
+      console.log(inputElement.id);
       boutonCommander.setAttribute("disabled", "disabled");
 
       if (isValid) {
@@ -219,7 +217,9 @@ function validateField(inputElement, regex, errorMessage) {
           errorElement.innerHTML = errorMessage;
       }
       contact[inputElement.id] = value;
+      console.log(value);
       fieldStates[inputElement.id] = isValid;
+      console.log(isValid);
 
       const isAllValid = Object.values(fieldStates).every((state) => state);
 
@@ -228,6 +228,7 @@ function validateField(inputElement, regex, errorMessage) {
           boutonCommander.addEventListener("click", (event) => {
 
               getOrder(contact);
+              console.log(contact);
           })
       }
   });
