@@ -242,4 +242,25 @@ validateField(baliseEmail, emailRegExp, "ceci n'est pas une adresse mail");
 
 function getOrder(contact) {
   console.log(contact);
+
+
+const form = {
+  contact: {
+      firstName: contact.firstName,
+      lastName: lastName,
+      address: address,
+      city: city,
+      email: email
+  },
+  products: [123, 456, 789]
+}
+
+fetch("http://localhost:3000/api/products/order", {
+method: "POST",
+headers: {
+  'Accept': 'application/json',
+  "Content-Type": "application/json",
+},
+body: JSON.stringify(form),
+})
 }
