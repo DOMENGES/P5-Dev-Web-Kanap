@@ -23,10 +23,10 @@ async function totalFinalPrice() {
   }
 }
 
-function chgBaliseQuantity(qteUpdate){
-      let baliseElementQuantity = document.querySelector(".cart__item__content__settings__quantity p");
-      baliseElementQuantity.innerHTML = qteUpdate;
-    }
+// function chgBaliseQuantity(qteUpdate){
+//       let baliseElementQuantity = document.querySelector(".cart__item__content__settings__quantity p");
+//       baliseElementQuantity.innerHTML = qteUpdate;
+//     }
 // paramètres sont issus de changeQuantity (évènement click)
 function updateQte(idProduit, colorProduit, qteUpdate)
 {
@@ -191,24 +191,42 @@ const emailRegExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
 function validateField(inputElement, regex, errorMessage) {
   const boutonCommander = document.getElementById("order");
+  // attribut + value = disabled => bouton inactif
+  // boutonCommander initialisé à inactif
   boutonCommander.setAttribute("disabled", "disabled");
-
+  // écoute chgt dans chaque input (champ) du formulaire
   inputElement.addEventListener("change", (event) => {
       event.preventDefault();
-    
+      // écoute et test des valeurs entrées dans le formulaire
+      // affichage du message d'erreur si nécessaire
       const value = inputElement.value;
+      console.log(inputElement);
+      console.log(value);
       const isValid = regex.test(value);
+      console.log(isValid);
       const errorElement = document.getElementById(inputElement.id + "ErrorMsg");
+      console.log(inputElement.id);
+      // si l'attribut est présent, 
+      // quelle que soit sa valeur réelle, 
+      // sa valeur est considérée comme true (vraie). 
+      // L'absence de l'attribut signifie que sa valeur est false (fausse). 
+      // En définissant la valeur de l'attribut disabled sur la chaîne vide (""), 
+      // nous définissons disabled sur true,
+      // ce qui entraîne la désactivation du bouton.
       boutonCommander.setAttribute("disabled", "disabled");
-
+      // boutonCommander toujours inactif
+      // il faut attendre que le formulaire soit correctement et totalement rempli
       if (isValid) {
           errorElement.innerHTML = "";
       } else {
           errorElement.innerHTML = errorMessage;
       }
       contact[inputElement.id] = value;
+      console.log(value);
       fieldStates[inputElement.id] = isValid;
+      console.log(fieldStates);
       const isAllValid = Object.values(fieldStates).every((state) => state);
+      console.log(isAllValid);
 
       if (isAllValid) {
           boutonCommander.removeAttribute("disabled");
