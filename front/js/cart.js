@@ -40,7 +40,6 @@ function updateQte(idProduit, colorProduit, qteUpdate)
       element.quantity = parseInt(qteUpdate); 
     // l'element avec la quantité modifiée est poussé dant le tableau cart
     cart.push(element);
-    console.log(cart);
     // Sinon l'élément qui n'a pas été sélectionné par le click
     // est poussé dans le tableau cart
     } else {
@@ -103,7 +102,6 @@ async function afficherCart__item (){
       let productPrice = await fetchProductPrice(productId);
       // affichage valeurs des propriétés produits
       cart__items = document.getElementById("cart__items");
-      // console.log(cart__items);
       cart__item =
           `<article class="cart__item" data-product-id="${productId}" data-product-color="${productColor}">
 <div class="cart__item__img">
@@ -117,8 +115,8 @@ async function afficherCart__item (){
   </div>
   <div class="cart__item__content__settings">
     <div class="cart__item__content__settings__quantity">
-    <p>Qté : ${productQuantity} </p>
-    <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
+    <p>Qté : </p>
+    <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${productQuantity}">
     </div>
     <div class="cart__item__content__settings__delete">
       <p class="deleteItem">Supprimer</p>
@@ -139,11 +137,7 @@ async function afficherCart__item (){
           let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
           // récuparation de la valeur color affichée dans la balise <article> et du localStorage par afficherCart__item 
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
-          // let qte = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-quantity');
-          // console.log(qte);
           updateQte(productId, color, item.value);
-          console.log(item.value);
-          // Rafraîchir la page
           location.reload();
           })
     })
@@ -152,9 +146,7 @@ async function afficherCart__item (){
       //On écoute le changement sur l'input "deletItem";
       item.addEventListener("click", (event) => {
           let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
-          // console.log(productId);
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
-          // console.log(color);
           deleteProduct(productId, color);
       });
       
@@ -205,10 +197,8 @@ function validateField(inputElement, regex, errorMessage) {
       event.preventDefault();
     
       const value = inputElement.value;
-      console.log(value);
       const isValid = regex.test(value);
       const errorElement = document.getElementById(inputElement.id + "ErrorMsg");
-      console.log(inputElement.id);
       boutonCommander.setAttribute("disabled", "disabled");
 
       if (isValid) {
@@ -217,18 +207,13 @@ function validateField(inputElement, regex, errorMessage) {
           errorElement.innerHTML = errorMessage;
       }
       contact[inputElement.id] = value;
-      console.log(value);
       fieldStates[inputElement.id] = isValid;
-      console.log(isValid);
-
       const isAllValid = Object.values(fieldStates).every((state) => state);
 
       if (isAllValid) {
           boutonCommander.removeAttribute("disabled");
           boutonCommander.addEventListener("click", (event) => {
-
               getOrder(contact);
-              console.log(contact);
           })
       }
   });
@@ -240,27 +225,44 @@ validateField(baliseAdresse, adresseRegExp, "ceci n'est pas une adresse");
 validateField(baliseVille, villeRegExp, "ceci n'est pas une ville");
 validateField(baliseEmail, emailRegExp, "ceci n'est pas une adresse mail");
 
-function getOrder(contact) {
-  console.log(contact);
+function getProductIdInCart()
+{
+    const cart__items = JSON.parse(localStorage.getItem("items")) || [];
 
-
-const form = {
-  contact: {
-      firstName: contact.firstName,
-      lastName: lastName,
-      address: address,
-      city: city,
-      email: email
-  },
-  products: [123, 456, 789]
+    let productsId = []
+    cart__items.forEach((product) => {
+        productsId.push(product.id)
+    })
+    console.log(productsId);
+    return productsId;
 }
 
-fetch("http://localhost:3000/api/products/order", {
-method: "POST",
-headers: {
-  'Accept': 'application/json',
-  "Content-Type": "application/json",
-},
-body: JSON.stringify(form),
-})
+function getOrder(contact) {
+    const form = {
+      contact: {
+          firstName: contact.firstName,
+          lastName: contact.lastName,
+          address: contact.address,
+          city: contact.city,
+          email: contact.email
+      },
+      products: getProductIdInCart()
+    }
+
+    fetch("http://localhost:3000/api/products/order", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(form),
+    }).then(res => res.json())
+        .then(res => {
+            alert("Votre commande a bien été effectuée !")
+            window.location.replace(`./confirmation.html?orderId=${res.orderId}`)
+        })
+        .catch((err) => {
+            alert(err.message)
+            console.log(err)
+        })
 }
