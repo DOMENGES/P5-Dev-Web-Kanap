@@ -194,17 +194,22 @@ function validateField(inputElement, regex, errorMessage) {
   // attribut + value = disabled => bouton inactif
   // boutonCommander initialisé à inactif
   boutonCommander.setAttribute("disabled", "disabled");
-  // écoute chgt dans chaque input (champ) du formulaire
+  // écoute chgt dans chaque input (champs) du formulaire
   inputElement.addEventListener("change", (event) => {
-      event.preventDefault();
+      // event.preventDefault();
       // écoute et test des valeurs entrées dans le formulaire
       // affichage du message d'erreur si nécessaire
+      // DOM balise de champ du formulaire 
       const value = inputElement.value;
       console.log(inputElement);
+      // valeur saisie par l'utilisateur
       console.log(value);
+      // test valeur correcte
       const isValid = regex.test(value);
       console.log(isValid);
+      // DOM balise du message d'erreur
       const errorElement = document.getElementById(inputElement.id + "ErrorMsg");
+      // id balise du champ sélectionné par l'utilisateur
       console.log(inputElement.id);
       // si l'attribut est présent, 
       // quelle que soit sa valeur réelle, 
@@ -221,22 +226,30 @@ function validateField(inputElement, regex, errorMessage) {
       } else {
           errorElement.innerHTML = errorMessage;
       }
+      // valeur du champ saisie par l'utilisateur
       contact[inputElement.id] = value;
       console.log(value);
+      // Vrai corectement rempli: valeur du champ saisie par l'utilisateur
       fieldStates[inputElement.id] = isValid;
+      // objet avec ttes valeurs du contact Vrai ou Faux de correctement rempli
       console.log(fieldStates);
+      // Tous les champs de l'objet Vrai(correctement rempli)
       const isAllValid = Object.values(fieldStates).every((state) => state);
       console.log(isAllValid);
 
       if (isAllValid) {
+          // boutonCommander passe actif
           boutonCommander.removeAttribute("disabled");
+          // écoute click de boutonCommander
           boutonCommander.addEventListener("click", (event) => {
+              event.preventDefault;
               getOrder(contact);
+              console.log(contact);
           })
       }
   });
 }
-
+// messages d'erreur pour chaque balise
 validateField(balisePrenom, prenomRegExp, "ceci n'est pas un prénom");
 validateField(baliseNom, nomRegExp, "ceci n'est pas un nom");
 validateField(baliseAdresse, adresseRegExp, "ceci n'est pas une adresse");
@@ -245,9 +258,11 @@ validateField(baliseEmail, emailRegExp, "ceci n'est pas une adresse mail");
 
 function getProductIdInCart()
 {
+    // récupération des produits du localStorage
     const cart__items = JSON.parse(localStorage.getItem("items")) || [];
-
-    let productsId = []
+    // initialisation du tableau des id des produits
+    let productsId = [];
+    // remplissage du tableau des id des produits
     cart__items.forEach((product) => {
         productsId.push(product.id)
     })
@@ -264,8 +279,9 @@ function getOrder(contact) {
           city: contact.city,
           email: contact.email
       },
-      products: getProductIdInCart()
+      products: getProductIdInCart(),
     }
+    console.log(form);
 
     fetch("http://localhost:3000/api/products/order", {
     method: "POST",
