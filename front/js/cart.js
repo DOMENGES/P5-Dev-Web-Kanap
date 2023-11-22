@@ -158,6 +158,7 @@ totalFinalPrice();
 updateQte();
 
 
+
 // Fonction générique de validation de champ
 const fieldStates = {
   firstName: false,
@@ -196,7 +197,7 @@ function validateField(inputElement, regex, errorMessage) {
   boutonCommander.setAttribute("disabled", "disabled");
   // écoute chgt dans chaque input (champs) du formulaire
   inputElement.addEventListener("change", (event) => {
-      // event.preventDefault();
+      event.preventDefault();
       // écoute et test des valeurs entrées dans le formulaire
       // affichage du message d'erreur si nécessaire
       // DOM balise de champ du formulaire 
@@ -206,7 +207,7 @@ function validateField(inputElement, regex, errorMessage) {
       console.log(value);
       // test valeur correcte
       const isValid = regex.test(value);
-      console.log(isValid);
+      // console.log(isValid);
       // DOM balise du message d'erreur
       const errorElement = document.getElementById(inputElement.id + "ErrorMsg");
       // id balise du champ sélectionné par l'utilisateur
@@ -242,9 +243,8 @@ function validateField(inputElement, regex, errorMessage) {
           boutonCommander.removeAttribute("disabled");
           // écoute click de boutonCommander
           boutonCommander.addEventListener("click", (event) => {
-              event.preventDefault;
+
               getOrder(contact);
-              console.log(contact);
           })
       }
   });
@@ -266,37 +266,41 @@ function getProductIdInCart()
     cart__items.forEach((product) => {
         productsId.push(product.id)
     })
-    console.log(productsId);
+    // console.log(productsId);
     return productsId;
-}
+};
 
 function getOrder(contact) {
-    const form = {
-      contact: {
+
+      const form = {
+      contact : {
           firstName: contact.firstName,
           lastName: contact.lastName,
           address: contact.address,
           city: contact.city,
           email: contact.email
       },
-      products: getProductIdInCart(),
-    }
+      products : getProductIdInCart(),
+      
+    };
+    console.log(contact);
     console.log(form);
 
     fetch("http://localhost:3000/api/products/order", {
-    method: "POST",
+    method: 'POST',
     headers: {
       'Accept': 'application/json',
       "Content-Type": "application/json",
     },
     body: JSON.stringify(form),
-    }).then(res => res.json())
+  })
+    .then(res => res.json())
         .then(res => {
             alert("Votre commande a bien été effectuée !")
-            window.location.replace(`./confirmation.html?orderId=${res.orderId}`)
+            window.location.replace(`front/html/confirmation.html?orderId=${res.orderId}`)
         })
         .catch((err) => {
             alert(err.message)
             console.log(err)
-        })
+        });
 }
