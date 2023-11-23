@@ -243,7 +243,7 @@ function validateField(inputElement, regex, errorMessage) {
           boutonCommander.removeAttribute("disabled");
           // écoute click de boutonCommander
           boutonCommander.addEventListener("click", (event) => {
-
+              event.preventDefault();
               getOrder(contact);
           })
       }
@@ -297,7 +297,7 @@ function getOrder(contact) {
     .then(res => res.json())
         .then(res => {
             alert("Votre commande a bien été effectuée !")
-            window.location.replace(`front/html/confirmation.html?orderId=${res.orderId}`)
+            window.location.replace(`./confirmation.html?orderId=${res.orderId}`)
         })
         .catch((err) => {
             alert(err.message)
