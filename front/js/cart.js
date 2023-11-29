@@ -1,5 +1,6 @@
 // récupération du prix dans l'API
 async function fetchProductPrice(productId) {
+  // productId issu de la fonction afficherCart__item
   let urlItem = "http://localhost:3000/api/products/" + productId;
   let response = await fetch(urlItem);
   let data = await response.json();
@@ -23,18 +24,13 @@ async function totalFinalPrice() {
   }
 }
 
-// function chgBaliseQuantity(qteUpdate){
-//       let baliseElementQuantity = document.querySelector(".cart__item__content__settings__quantity p");
-//       baliseElementQuantity.innerHTML = qteUpdate;
-//     }
-// paramètres sont issus de changeQuantity (évènement click)
+// paramètres sont issus de changeQuantity (évènement click sur formulaire qte)
 function updateQte(idProduit, colorProduit, qteUpdate)
 {
    // récupération dans le localStorage du panier avec quantité modifiée par le click
   const cart__items = JSON.parse(localStorage.getItem("items")) || [];
   // initialisation du tableau cart : nouveau panier
   let cart = [];
-  // parcours du panier cart__items sur chaque produit(element)
   cart__items.forEach((element) => {
     if(element.id == idProduit && element.color == colorProduit ){
       element.quantity = parseInt(qteUpdate); 
@@ -44,11 +40,8 @@ function updateQte(idProduit, colorProduit, qteUpdate)
     // est poussé dans le tableau cart
     } else {
       cart.push(element);
-      // document.querySelector(".cart__item__content__settings__quantity p").innerHTML = `${qteUpdate}`
       };
-  // stockage de tous les produits(items) du tableau cart dans le localStorage
-  // et pour pouvoir stocker les valeurs il faut toutes les transformer
-  // en chaines de caractères
+  // stockage du tableau cart converti au format JSON dans le localStorage
   localStorage.setItem("items", JSON.stringify(cart));
   totalFinalPrice();  
 });
@@ -88,6 +81,7 @@ function updateQte(idProduit, colorProduit, qteUpdate)
   
 }
 
+// affichage : image, nom, couleur, prix unitaire, quantité originale/non modifiée
 async function afficherCart__item (){
   let cart__items = window.localStorage.getItem("items");
   let itemsJson = JSON.parse(cart__items);
@@ -259,6 +253,7 @@ validateField(baliseEmail, emailRegExp, "ceci n'est pas une adresse mail");
 function getProductIdInCart()
 {
     // récupération des produits du localStorage
+    // conversion JSON du localStorage en objet
     const cart__items = JSON.parse(localStorage.getItem("items")) || [];
     // initialisation du tableau des id des produits
     let productsId = [];
@@ -292,6 +287,7 @@ function getOrder(contact) {
       'Accept': 'application/json',
       "Content-Type": "application/json",
     },
+    // conversion valeurs javascript du form en JSON
     body: JSON.stringify(form),
   })
     .then(res => res.json())

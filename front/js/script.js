@@ -1,14 +1,10 @@
-//Déclaration variable adresse http de l'api
+//Déclaration variable adresse url de l'api
 let url = "http://localhost:3000/api/products";
-//Déclaration variable items et liée avec la balise du fichier html
+//Déclaration variable items et liée avec la balise du fichier html grâce au DOM
 let items = document.getElementById("items");
-//Lorsque la fonction fetch a atteind l'api
-//alors (.then) la promesse est "resolved"
-//et les données datas sont prises en argument de la 
-//fonction then
+//récupération de l'url et de toutes ses données
 fetch(url).then(datas=>{
-  //les datas au format json avec .then et le paramètre
-  //elements dans la fonction
+  //données traduites au format JSON
     datas.json().then(elements=>{
       //.forEach qui parcourt le tableau elements et
       //execute la fonction de chaque element de elements

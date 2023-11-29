@@ -7,7 +7,7 @@ console.log(searchParams);
 const idProduct = searchParams.get('id');
 console.log(idProduct);
 
-//initialisation des variables du produit
+//initialisation des propriétés du produit
 let elementTitle = null;
 let elementId = null;
 let elementColor = null;
@@ -18,27 +18,25 @@ let description = null;
 //déclaration url2 du produit complétée avec id du produit
 let url2 = "http://localhost:3000/api/products/"+idProduct;
 
-//recupération des données(API) au format Json du produit
+//recupération des données(API) au format Json de chaque element(produit)
 fetch(url2).then(data=>{
     data.json().then(element=>{ 
     elementTitle = element.name;
     imageUrl = element.imageUrl;
     price = element.price;
     description = element.description;
-    // récupération balise image dans le DOM
+    // affichage image
     let elementImg = document.querySelector(".item__img");
-    // affichage dans la page web des données image
     elementImg.innerHTML = '<img src="'+imageUrl+'" alt="Photographie d\'un canapé">';
-    // récupérations et affichages autres données du produit
+    // affichage titre produit, prix, description
     document.getElementById("title").innerHTML = '<h1>'+elementTitle+'</h1>';
     let elementPrice = document.getElementById("price");
     elementPrice.innerHTML = '<span>'+price+ '</span>';
     let elementDescription = document.getElementById("description");
     elementDescription.innerHTML = '<p>'+description+'</p>';
 
-    //récupération tableau couleurs de l'API
+    //affichage dans le formulaire valeurs couleur du produit
     const couleur = element.colors;
-    //récupération et affichage de chaque données du tableau couleur
     for (let i=0; i<couleur.length; i++){
         let valeurCouleur = couleur[i];
         let formulaireCouleur = document.getElementById("colors");
@@ -47,65 +45,65 @@ fetch(url2).then(data=>{
     })
 })
 
-//déclaration évènement "click" sur bouton "ajouter au panier"
+//évènement "click" sur bouton "ajouter au panier"
 let addToCartBox = document.getElementById("addToCart");
 addToCartBox.addEventListener("click", (event)=>{
     event.preventDefault();
-    // déclaration tableau articles sélectionnés
+    // initialisation tableau items du localStorage
     let items=[];
-    // traduction + récupération du DOM des données sélectionnées quantity
+    // récupération valeur quantity du formulaire modifiée/ou pas, par l'utilisateur
     let quantity = parseInt(document.getElementById("quantity").value);
-    // récupération des données sélectionnées couleur
+    // récupération valeur color de la page Web
     let color = document.getElementById("colors").value;
-        //test champs des formulaires quantité et couleur
+        //test si champs correctement remplis de couleur et quantité
         if(color==""){
             alert("Veuillez choisir une couleur");
             }else if (quantity<=0 || quantity>100){
                 alert("la quantité doit être entre 1 et 100");  
         }else{
-            // Sinon : formulaires correctement remplis
-            //  + Si 
-            // récupération du localStorage du tableau items
+            // Si champs correctement remplis
+            // initialisation d'un nouveau tableau : newItems
+            // avec résultats calcul quantity modifiée/ou pas par l'utilisateur
             if(localStorage.getItem('items')){
-                // Alors reformation des données items pour JS
-                items = JSON.parse(localStorage.getItem('items'))
+                items = JSON.parse(localStorage.getItem('items'));
+                console.log(items);
                 }
-
-                //déclaration d'un nouveau tableau : newItems
                 let newItems = [];
-                //boolean initialisé à false
                 let isExist = false;
-                // items(données sélectionnées) avec id et color identiques
+                
                 items.forEach(element => {
-                    // Si
-                    // element : calcul quantité pour id et color identiques
-                    // + variable isExist passe à true
+                    // si valeurs id et color du localStorage 
+                    // et valeurs id et color affichées sur la page Web
+                    // sont identiques
+                    // alors calcul quantity et variable isExist = true
                     if(element.id === idProduct && element.color === color){
                     element.quantity = element.quantity + quantity;
+                    console.log(quantity);
+                    console.log(element.quantity);
                     isExist = true;
                     }
-                    // Alors ajout élément(quantité calculée) au tableau newItems
+                    // ajout element après calcul quantity
+                    // à newItems
                     newItems.push(element);
                 });
-            
-                // Si isExist est true
-                if(!isExist){
-                // Alors déclaration item0 avec ttes propriétés originales
-                    let item0 = {
-                        id: idProduct,
-                        name: elementTitle,
-                        color:color,
-                        quantity:quantity,
-                        imageUrl:imageUrl,
-                        price : price,
-                        description : description
+                    // variable isExist = false
+                    // element.id != idProduct ou element.color != color
+                    // ajout element à newItems 
+                    if(!isExist){
+                        let item0 = {
+                            id: idProduct,
+                            name: elementTitle,
+                            color:color,
+                            quantity:quantity,
+                            imageUrl:imageUrl,
+                            price : price,
+                            description : description
+                        }
+                        newItems.push(item0);
                     }
-                    // + intégrer item0 dans newItems
-                    newItems.push(item0);
-                }
                 //sérialisation des valeurs de newItems
                 const valeursnewItems = JSON.stringify(newItems);
-                //stockage des infos d'items dans localStorage
+                //stockage des infos de valeurnewsItems dans localStorage
                 window.localStorage.setItem("items", valeursnewItems);
             }
 })
