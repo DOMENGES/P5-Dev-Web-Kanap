@@ -27,58 +27,30 @@ async function totalFinalPrice() {
 // paramètres sont issus de changeQuantity (évènement click sur formulaire qte)
 function updateQte(idProduit, colorProduit, qteUpdate)
 {
-   // récupération dans le localStorage du panier avec quantité modifiée par le click
   const cart__items = JSON.parse(localStorage.getItem("items")) || [];
-  // initialisation du tableau cart : nouveau panier
   let cart = [];
+
   cart__items.forEach((element) => {
     if(element.id == idProduit && element.color == colorProduit ){
       element.quantity = parseInt(qteUpdate); 
-    // l'element avec la quantité modifiée est poussé dant le tableau cart
-    cart.push(element);
-    // Sinon l'élément qui n'a pas été sélectionné par le click
-    // est poussé dans le tableau cart
-    } else {
       cart.push(element);
-      };
-  // stockage du tableau cart converti au format JSON dans le localStorage
-  localStorage.setItem("items", JSON.stringify(cart));
-  totalFinalPrice();  
-});
+    } else {
+            cart.push(element);
+            };
+    localStorage.setItem("items", JSON.stringify(cart));
+    totalFinalPrice();  
+  });
 }
 
   function deleteProduct(idProduit, colorProduit) {
-  // Récupérer le panier du localStorage dans un tableau
   const cart__items = JSON.parse(localStorage.getItem("items")) || [];
-  //
-  // if
-  // cart__items tableau avec items du localStorage est true et le [] vide est false => true
-  // OU cart__items tableau avec items du localStorage est true et le [] vide est true => true
-  // OU cart__items tableau avec items du localStorage est false et le [] vide est true => true
-  // OU cart__items tableau avec items du localStorage est false et le [] vide est false => false
-  // être sûr qu'il y a des données dans le localStorage pour remplir le tableau
-  // s'il n'y a aucune donnée dans le localStorage soit le tableau ne se remplit pas,
-  // soit le tableau est remplit et cela renverra faux.
-
-  // Filtrer les éléments à conserver dans un nouveau tableau
-  const new_cart = cart__items.filter(item => item.id !== idProduit || item.color !== colorProduit);
-  // if
-  // item.id !== idProduit est true et item.color !== colorProduit est true => true
-  // item.id !== idProduit est true et item.color !== colorProduit est false => true
-  // item.id !== idProduit est false et item.color !== colorProduit est true => true
-  // item.id !== idProduit est false et item.color !== colorProduit est false => false
-  // si id & color du LocalStorage différents de id & color de l'item sélectionné alors
-  // l'item reste dans le nouveau tableau
-
-  // Sauvegarder le nouveau panier dans le localStorage
-  localStorage.setItem("items", JSON.stringify(new_cart));
-
-  // Rafraîchir la page
-  location.reload();
-
-  // Mettre à jour le prix final
-  totalFinalPrice();
   
+  const new_cart = cart__items.filter(
+    item => item.id !== idProduit || item.color !== colorProduit);
+  
+  localStorage.setItem("items", JSON.stringify(new_cart));
+  location.reload();
+  totalFinalPrice();  
 }
 
 // affichage : image, nom, couleur, prix unitaire, quantité originale/non modifiée
@@ -153,7 +125,7 @@ updateQte();
 
 
 
-// Fonction générique de validation de champ
+// initialisation des champs du formulaire contact
 const fieldStates = {
   firstName: false,
   lastName: false,
@@ -178,6 +150,7 @@ const baliseAdresse = document.getElementById("address");
 const baliseVille = document.getElementById("city");
 const baliseEmail = document.getElementById("email");
 
+// règles de validation complexe : RegExp
 const prenomRegExp = /^[A-zÀ-ú- +\.]+$/;
 const nomRegExp = /^[A-zÀ-ú- +\.]+$/;
 const adresseRegExp = /^[A-zÀ-ú- +\.0-9^,\/]+$/;
@@ -189,20 +162,13 @@ function validateField(inputElement, regex, errorMessage) {
   // attribut + value = disabled => bouton inactif
   // boutonCommander initialisé à inactif
   boutonCommander.setAttribute("disabled", "disabled");
-  // écoute chgt dans chaque input (champs) du formulaire
+  // écoute et test des valeurs entrées dans le formulaire
+  // affichage du message d'erreur si nécessaire
+  // DOM balise de champ du formulaire pour message d'erreur
   inputElement.addEventListener("change", (event) => {
       event.preventDefault();
-      // écoute et test des valeurs entrées dans le formulaire
-      // affichage du message d'erreur si nécessaire
-      // DOM balise de champ du formulaire 
       const value = inputElement.value;
-      console.log(inputElement);
-      // valeur saisie par l'utilisateur
-      console.log(value);
-      // test valeur correcte
       const isValid = regex.test(value);
-      // console.log(isValid);
-      // DOM balise du message d'erreur
       const errorElement = document.getElementById(inputElement.id + "ErrorMsg");
       // id balise du champ sélectionné par l'utilisateur
       console.log(inputElement.id);
@@ -224,10 +190,10 @@ function validateField(inputElement, regex, errorMessage) {
       // valeur du champ saisie par l'utilisateur
       contact[inputElement.id] = value;
       console.log(value);
-      // Vrai corectement rempli: valeur du champ saisie par l'utilisateur
+      // Vrai correctement rempli: valeur du champ saisie par l'utilisateur
       fieldStates[inputElement.id] = isValid;
       // objet avec ttes valeurs du contact Vrai ou Faux de correctement rempli
-      console.log(fieldStates);
+      // console.log(fieldStates);
       // Tous les champs de l'objet Vrai(correctement rempli)
       const isAllValid = Object.values(fieldStates).every((state) => state);
       console.log(isAllValid);
@@ -252,16 +218,14 @@ validateField(baliseEmail, emailRegExp, "ceci n'est pas une adresse mail");
 
 function getProductIdInCart()
 {
-    // récupération des produits du localStorage
-    // conversion JSON du localStorage en objet
+
     const cart__items = JSON.parse(localStorage.getItem("items")) || [];
     // initialisation du tableau des id des produits
     let productsId = [];
     // remplissage du tableau des id des produits
     cart__items.forEach((product) => {
         productsId.push(product.id)
-    })
-    // console.log(productsId);
+    });
     return productsId;
 };
 
@@ -284,12 +248,11 @@ function getOrder(contact) {
     fetch("http://localhost:3000/api/products/order", {
     method: 'POST',
     headers: {
-      'Accept': 'application/json',
-      "Content-Type": "application/json",
-    },
-    // conversion valeurs javascript du form en JSON
+              'Accept': 'application/json',
+              "Content-Type": "application/json",
+              },
     body: JSON.stringify(form),
-  })
+    })
     .then(res => res.json())
         .then(res => {
             alert("Votre commande a bien été effectuée !")
