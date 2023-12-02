@@ -1,11 +1,8 @@
 //récupération url du produit depuis le navigateur
 const url = new URL(document.location);
-console.log (url);
 //récupération id du produit dans l'url
 const searchParams = url.searchParams;
-console.log(searchParams);
 const idProduct = searchParams.get('id');
-console.log(idProduct);
 
 //initialisation des propriétés du produit
 let elementTitle = null;
@@ -30,6 +27,7 @@ fetch(url2).then(data=>{
     elementImg.innerHTML = '<img src="'+imageUrl+'" alt="Photographie d\'un canapé">';
     // affichage titre produit, prix, description
     document.getElementById("title").innerHTML = '<h1>'+elementTitle+'</h1>';
+    document.querySelector("title").innerHTML = elementTitle;
     let elementPrice = document.getElementById("price");
     elementPrice.innerHTML = '<span>'+price+ '</span>';
     let elementDescription = document.getElementById("description");
@@ -66,7 +64,6 @@ addToCartBox.addEventListener("click", (event)=>{
             // avec résultats calcul quantity modifiée/ou pas par l'utilisateur
             if(localStorage.getItem('items')){
                 items = JSON.parse(localStorage.getItem('items'));
-                console.log(items);
                 }
                 let newItems = [];
                 let isExist = false;
@@ -78,8 +75,6 @@ addToCartBox.addEventListener("click", (event)=>{
                     // alors calcul quantity et variable isExist = true
                     if(element.id === idProduct && element.color === color){
                     element.quantity = element.quantity + quantity;
-                    console.log(quantity);
-                    console.log(element.quantity);
                     isExist = true;
                     }
                     // ajout element après calcul quantity

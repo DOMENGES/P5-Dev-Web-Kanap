@@ -1,16 +1,13 @@
 const url = new URL(document.location);
-console.log(url);
 const searchParams = url.searchParams;
 const orderId = searchParams.get('orderId');
-console.log(orderId);
-
+// affichage du numéro de commande
 function displayNumberOrder(orderId)
 {
     const orderNumber = document.getElementById("orderId");
     orderNumber.innerHTML = orderId;
-    console.log(orderId);
 }
-
+// effacement des données du localStorage
 function clean_cart()
 {
     return localStorage.clear();

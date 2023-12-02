@@ -94,9 +94,9 @@ async function afficherCart__item (){
 
   }
 
+  // bouton choix quantité
   let changeQuantity = document.querySelectorAll(".itemQuantity");
    changeQuantity.forEach((item) => {
-      //On écoute le changement sur l'input "itemQuantity"
           item.addEventListener("change", (event) => {
           event.preventDefault();
           // récupération de l'id affiché dans la balise <article> et du localStorage par afficherCart__item
@@ -104,26 +104,24 @@ async function afficherCart__item (){
           // récuparation de la valeur color affichée dans la balise <article> et du localStorage par afficherCart__item 
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
           updateQte(productId, color, item.value);
-          location.reload();
           })
     })
+  // bouton supprimer
   let removeCart = document.querySelectorAll(".deleteItem");
   removeCart.forEach((item) => {
-      //On écoute le changement sur l'input "deletItem";
       item.addEventListener("click", (event) => {
           let productId = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-id');
           let color = item.parentElement.parentElement.parentElement.parentElement.getAttribute('data-product-color');
           deleteProduct(productId, color);
       });
-      
   });
-
 }
+// appel fonctions
 afficherCart__item();
 totalFinalPrice();
 updateQte();
 
-
+// contact
 
 // initialisation des champs du formulaire contact
 const fieldStates = {
@@ -157,56 +155,36 @@ const adresseRegExp = /^[A-zÀ-ú- +\.0-9^,\/]+$/;
 const villeRegExp = /^[A-zÀ-ú- 0-9^,\/]+$/;
 const emailRegExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
+// pour valider si les champs sont correctement remplis
 function validateField(inputElement, regex, errorMessage) {
   const boutonCommander = document.getElementById("order");
-  // attribut + value = disabled => bouton inactif
-  // boutonCommander initialisé à inactif
   boutonCommander.setAttribute("disabled", "disabled");
-  // écoute et test des valeurs entrées dans le formulaire
-  // affichage du message d'erreur si nécessaire
-  // DOM balise de champ du formulaire pour message d'erreur
+
   inputElement.addEventListener("change", (event) => {
       event.preventDefault();
       const value = inputElement.value;
       const isValid = regex.test(value);
       const errorElement = document.getElementById(inputElement.id + "ErrorMsg");
-      // id balise du champ sélectionné par l'utilisateur
-      console.log(inputElement.id);
-      // si l'attribut est présent, 
-      // quelle que soit sa valeur réelle, 
-      // sa valeur est considérée comme true (vraie). 
-      // L'absence de l'attribut signifie que sa valeur est false (fausse). 
-      // En définissant la valeur de l'attribut disabled sur la chaîne vide (""), 
-      // nous définissons disabled sur true,
-      // ce qui entraîne la désactivation du bouton.
       boutonCommander.setAttribute("disabled", "disabled");
-      // boutonCommander toujours inactif
-      // il faut attendre que le formulaire soit correctement et totalement rempli
-      if (isValid) {
-          errorElement.innerHTML = "";
-      } else {
-          errorElement.innerHTML = errorMessage;
-      }
-      // valeur du champ saisie par l'utilisateur
-      contact[inputElement.id] = value;
-      console.log(value);
-      // Vrai correctement rempli: valeur du champ saisie par l'utilisateur
-      fieldStates[inputElement.id] = isValid;
-      // objet avec ttes valeurs du contact Vrai ou Faux de correctement rempli
-      // console.log(fieldStates);
-      // Tous les champs de l'objet Vrai(correctement rempli)
-      const isAllValid = Object.values(fieldStates).every((state) => state);
-      console.log(isAllValid);
 
-      if (isAllValid) {
+        if (isValid) {
+          errorElement.innerHTML = "";
+        } else {
+          errorElement.innerHTML = errorMessage;
+        }
+
+      contact[inputElement.id] = value;
+      fieldStates[inputElement.id] = isValid;
+
+      const isAllValid = Object.values(fieldStates).every((state) => state);
+        if (isAllValid) {
           // boutonCommander passe actif
-          boutonCommander.removeAttribute("disabled");
-          // écoute click de boutonCommander
-          boutonCommander.addEventListener("click", (event) => {
+            boutonCommander.removeAttribute("disabled");
+            boutonCommander.addEventListener("click", (event) => {
               event.preventDefault();
               getOrder(contact);
-          })
-      }
+            })
+        }
   });
 }
 // messages d'erreur pour chaque balise
@@ -216,21 +194,21 @@ validateField(baliseAdresse, adresseRegExp, "ceci n'est pas une adresse");
 validateField(baliseVille, villeRegExp, "ceci n'est pas une ville");
 validateField(baliseEmail, emailRegExp, "ceci n'est pas une adresse mail");
 
+// récupération des id des produits du panier
 function getProductIdInCart()
 {
-
     const cart__items = JSON.parse(localStorage.getItem("items")) || [];
-    // initialisation du tableau des id des produits
     let productsId = [];
-    // remplissage du tableau des id des produits
     cart__items.forEach((product) => {
         productsId.push(product.id)
     });
     return productsId;
 };
 
+// commande : valeurs formulaire et récupération id du panier
+// envoi du contact et des id à l'api
+// chargement de la page confirmation
 function getOrder(contact) {
-
       const form = {
       contact : {
           firstName: contact.firstName,
@@ -239,11 +217,8 @@ function getOrder(contact) {
           city: contact.city,
           email: contact.email
       },
-      products : getProductIdInCart(),
-      
-    };
-    console.log(contact);
-    console.log(form);
+      products : getProductIdInCart(),  
+      };
 
     fetch("http://localhost:3000/api/products/order", {
     method: 'POST',
@@ -259,7 +234,6 @@ function getOrder(contact) {
             window.location.replace(`./confirmation.html?orderId=${res.orderId}`)
         })
         .catch((err) => {
-            alert(err.message)
-            console.log(err)
+            alert(err.message);
         });
 }
